@@ -9,7 +9,7 @@
 <body>
 
 login
-
+jjj
 <form action="LoginServlet" method="GET">
 User ID : <input type="text" name="id" size="20"><br>
 Password : <input type="password" name="password" size="20">
