@@ -11,7 +11,7 @@
 login
 <form action="LoginServlet" method="GET">
 User ID : <input type="text" name="id" size="20"><br>
-Password : <input type="password" name="password" size="20">
+Password : <input type="password" name="password" size="100">
 </form>
 
 <br>
