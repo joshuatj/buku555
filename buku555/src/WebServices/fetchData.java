@@ -29,7 +29,7 @@ public class fetchData extends HttpServlet {
      */
     public fetchData() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
@@ -38,7 +38,7 @@ public class fetchData extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		// TODO Auto-generated method stub
+		
 	
 		
 		int mode = Integer.parseInt(request.getParameter("mode"));
@@ -48,7 +48,6 @@ public class fetchData extends HttpServlet {
 			try {
 				getRateHTML(request.getParameter("to"), request.getParameter("from"), response);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -58,7 +57,6 @@ public class fetchData extends HttpServlet {
 			try {
 				getHistroicRateHTML(request.getParameter("to"), request.getParameter("from"),request.getParameter("date"), response);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -68,7 +66,6 @@ public class fetchData extends HttpServlet {
 			try {
 				getSupportedCurrenciesHTML(request.getParameter("date"), response);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -169,14 +166,12 @@ public class fetchData extends HttpServlet {
 		try {
 			conn = urlCall.openConnection();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         BufferedReader br = null;
 		try {
 			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
        
@@ -189,14 +184,13 @@ public class fetchData extends HttpServlet {
 			  }
 			} }
 			catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
         try {
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
         

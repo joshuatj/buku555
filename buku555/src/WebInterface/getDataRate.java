@@ -2,7 +2,6 @@ package WebInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,15 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 //import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 
-
-
-
-
-
-
-
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 
 
@@ -50,7 +40,7 @@ public class getDataRate extends HttpServlet {
      */
     public getDataRate() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
     
     public void init() throws ServletException {
@@ -74,7 +64,7 @@ public class getDataRate extends HttpServlet {
 		try {
 			dbo = new CurrencyDBAO();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		ArrayList<CurrencyDetails> cd = new ArrayList<CurrencyDetails>();
@@ -105,7 +95,7 @@ public class getDataRate extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -6,8 +6,6 @@ import database.CurrencyDBAO;
 import javax.servlet.*;
 import javax.servlet.annotation.WebListener;
 
-import database.CurrencyDBAO;
-
 /**
  * Application Lifecycle Listener implementation class myListener
  *
@@ -19,7 +17,7 @@ public class myListener implements ServletContextListener {
      * Default constructor. 
      */
     public myListener() {
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**

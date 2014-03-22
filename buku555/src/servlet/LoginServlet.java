@@ -23,8 +23,8 @@ public class LoginServlet extends HttpServlet {
 	 */
 	public LoginServlet() {
 		super();
-		// TODO Auto-generated constructor stub
-		// System.out.println("cewoewjsjsjsjsj");
+		
+		
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		String id = request.getParameter("id");
 		String email = request.getParameter("email");
 		// String country = request.getParameter("country");

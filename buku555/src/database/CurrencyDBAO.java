@@ -36,7 +36,7 @@ import WebServices.fetchData;
 
 
 public class CurrencyDBAO {
-    private ArrayList currencies;
+    //private ArrayList currencies;
     Connection con;
     private boolean conFree = true;
     
