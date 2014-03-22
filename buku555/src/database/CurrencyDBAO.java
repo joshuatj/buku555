@@ -134,7 +134,7 @@ public class CurrencyDBAO {
     
     public boolean insertCurreny(CurrencyDetails cd) throws Exception {
     	try {
-    		String insertStatement = "insert into currency values (?,?,?)";
+    		String insertStatement = "insert into currency (country_currency_code, date, value) VALUES (?,?,?)";
             getConnection();
                       
             PreparedStatement prepStmt = con.prepareStatement(insertStatement);
@@ -168,7 +168,7 @@ public class CurrencyDBAO {
             ResultSet rs = prepStmt.executeQuery();
             
             while (rs.next()) {
-                CurrencyDetails bd = new CurrencyDetails(rs.getString(1), rs.getString(2), rs.getString(3));
+                CurrencyDetails bd = new CurrencyDetails(rs.getString(2), rs.getString(3), rs.getString(4));
                 
                 if (!rs.getString(3).equals(null)) 
                 {

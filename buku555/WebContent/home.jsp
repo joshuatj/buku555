@@ -161,7 +161,9 @@
 				Lending App</p></li>
 		<li><a href="#">Currency</a>
 			<ul>
-				<li><a href="#">Test</a></li>
+				<li><a href="getRate.jsp">Get Rate</a></li>
+				<li><a href="getHistoricRate.jsp">Get Historic Rate</a></li>
+				<li><a href="getHistoricOtherCurrency.jsp">Get Multiple Conversion</a></li>
 			</ul></li>
 		<li><div class="fb-login-button" data-max-rows="10"
 				data-size="small" data-show-faces="true"

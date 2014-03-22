@@ -54,8 +54,8 @@ DROP TABLE IF EXISTS `currency`;
 CREATE TABLE `currency` (
   `id` INT NOT NULL AUTO_INCREMENT DEFAULT NULL,
   `country_currency_code` VARCHAR(100) NULL DEFAULT NULL,
-  `date` Date NULL DEFAULT NULL,
-  `value` INT(100) NULL DEFAULT NULL,
+  `date` VARCHAR(10) NULL DEFAULT NULL,
+  `value` VARCHAR(100) NULL DEFAULT NULL,
   UNIQUE (country_currency_code,`date`),
   PRIMARY KEY (`id`)
 );
