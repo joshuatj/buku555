@@ -17,7 +17,7 @@
 				$(this).children('ul').show();
 			}).mouseout(function() {
 				$(this).children('ul').hide();
-			})
+			});
 		}
 	});
 </script>
