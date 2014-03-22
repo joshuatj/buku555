@@ -191,7 +191,7 @@ public class CurrencyDBAO {
     	ArrayList <String> currencies = new ArrayList<String>();
         
         try {
-            String selectStatement = "select * from currency_codes";
+            String selectStatement = "select * from currency_code";
             getConnection();
          
             PreparedStatement prepStmt = con.prepareStatement(selectStatement);;
@@ -225,7 +225,7 @@ public class CurrencyDBAO {
     	int i = 1;
     	
     	try {
-    		String insertStatement = "delete from currency_codes";
+    		String insertStatement = "delete from currency_code";
             getConnection();
                       
             PreparedStatement prepStmt = con.prepareStatement(insertStatement);                      
@@ -243,7 +243,7 @@ public class CurrencyDBAO {
     	for(String s: currencies)
     	{
     	try {
-    		String insertStatement = "insert into currency_codes values (?,?)";
+    		String insertStatement = "insert into currency_code values (?,?)";
             getConnection();
                       
             PreparedStatement prepStmt = con.prepareStatement(insertStatement);
