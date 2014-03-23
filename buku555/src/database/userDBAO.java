@@ -103,7 +103,6 @@ public class userDBAO {
 	}
 
 	public void checkUser(String id, String email, String role) {
-		// boolean status = false;
 		// System.out.print(id + " " + email + " " + accessToken + " " + country
 		// + " " + role);
 		try {
@@ -121,8 +120,7 @@ public class userDBAO {
 				// return;
 				System.out.println("ddfafaffss");
 			} else {
-				String insertStatement = "insert into user (user_id, email, role) values(?,?,?)";
-
+				String insertStatement = "insert into user (fb_user_id, email, role) values(?,?,?)";
 				prepStmt = con.prepareStatement(insertStatement);
 				// System.out.println("auauauau" + insertStatement);
 				prepStmt.setString(1, id);
@@ -138,8 +136,6 @@ public class userDBAO {
 			releaseConnection();
 			ex.printStackTrace();
 		}
-
-		// return status;
 	}
 
 	public boolean authenticate(String id, String password) {

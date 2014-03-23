@@ -179,7 +179,50 @@
 			<p>You will see result here</p>
 		</div>
 	</div>
-
+	
+	<form>
+		Facebook ID: <input type="text" id="fb_id"><br>	
+		<input type="button" value="get details" onclick="GetFriendDetailsByID(document.getElementById('fb_id').value)">	
+	</form>
+	<form>
+		Get Login Status: <input type="button" value="get login status" onclick="GetUserLoginStatus()">			
+	</form>
+	<form>
+		Get Current User Details: <input type="button" value="get user details" onclick="GetCurrentUserDetails()">			
+	</form>
+	<script type="text/javascript">
+	function GetFriendDetailsByID(id) {				
+		//alert(response.authResponse.info);			
+		//alert(response.authResponse.userID);		
+		FB.api('/'+id, function(response) {    	
+			alert(response.name); 				
+			//alert(response.gender);
+		});		    																
+	}	
+	function GetUserLoginStatus() {
+		FB.getLoginStatus(function(response) {
+			  if (response.status === 'connected') {
+			    alert("connected");
+			  } else if (response.status === 'not_authorized') {
+			    // the user is logged in to Facebook, 
+			    // but has not authenticated your app
+				  alert("not authorized");
+			  } else {
+			    // the user isn't logged in to Facebook.
+			    alert("not login");
+			  }
+			 });
+	}	
+	function GetCurrentUserDetails() {
+		FB.api('/me', function(response) {    	
+			alert(response.name); 
+			alert(response.email);
+			alert(response.location.name);
+			alert(response.hometown.name);
+		});
+	}
+	</script>
+	
 	<!-- Markup for These Days Friend Selector -->
 	<div id="TDFriendSelector">
 		<div class="TDFriendSelector_dialog">
