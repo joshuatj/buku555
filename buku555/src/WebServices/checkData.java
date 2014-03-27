@@ -1,6 +1,5 @@
 package WebServices;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import database.CurrencyDetails;
@@ -10,6 +9,7 @@ public class checkData {
 
 	public String checkString(String test) 
 	{
+		@SuppressWarnings("unused")
 		String result = "";
 		
 		try{

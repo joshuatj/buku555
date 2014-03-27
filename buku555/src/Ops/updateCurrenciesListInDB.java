@@ -26,7 +26,7 @@ public class updateCurrenciesListInDB extends HttpServlet {
      */
     public updateCurrenciesListInDB() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
@@ -38,7 +38,7 @@ public class updateCurrenciesListInDB extends HttpServlet {
 		try {
 			dbo = new CurrencyDBAO();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+			// 
 			e1.printStackTrace();
 		}
 		ArrayList<String> cd = new ArrayList<String>();
@@ -55,7 +55,7 @@ public class updateCurrenciesListInDB extends HttpServlet {
 				for(String s: cd)
 		    out.println(s+"<br>");
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 			}
 			
 			
@@ -67,13 +67,13 @@ public class updateCurrenciesListInDB extends HttpServlet {
 				for(String s: cd2)
 		    out.println(s+"<br>");
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 			}
 		    
 	        out.close();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			// 
 			out.println(e.getMessage()+"<br>"+e.getStackTrace());
 		}       
 
@@ -84,7 +84,7 @@ public class updateCurrenciesListInDB extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -28,7 +28,7 @@
 
 package database;
 
-public class CurrencyDetails implements Comparable {
+public class CurrencyDetails implements Comparable<Object> {
     private String country_currency_code = null;
     private String date = null;
     private String value = null;

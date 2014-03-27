@@ -23,8 +23,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	public LoginServlet() {
 		super();
-		// TODO Auto-generated constructor stub
-		// System.out.println("cewoewjsjsjsjsj");
+
 	}
 
 	/**
@@ -34,7 +33,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -44,27 +43,21 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		String id = request.getParameter("id");
 		String email = request.getParameter("email");
 		// String country = request.getParameter("country");
 		// String accessToken = request.getParameter("accessToken");
 		// System.out.println(id);
 		// String password = request.getParameter("password");
-		boolean result = false;
+		// boolean result = false;
 		// ensure that out.close() do not come before response object
 
 		try {
 			userDBAO account = new userDBAO();
 			// result = account.checkUser(id);
 			account.checkUser(id, email, "user");
-			result = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-
-		if (result) {
+			// result = true;
 			// request.getRequestDispatcher("/bookstore").forward(request,response);
 			// response.sendRedirect("fbLogin.jsp");
 			HttpSession sess = request.getSession(true);
@@ -72,11 +65,19 @@ public class LoginServlet extends HttpServlet {
 			// RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
 			// rd.forward(request, response);
 			response.sendRedirect("home.jsp");
-			return;
-		} else {
-			// response.sendRedirect("fbLogin.jsp");
-			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+
 		}
+		/*
+		 * if (result) { //
+		 * request.getRequestDispatcher("/bookstore").forward(request,response);
+		 * // response.sendRedirect("fbLogin.jsp"); HttpSession sess =
+		 * request.getSession(true); sess.setAttribute("id", id); //
+		 * RequestDispatcher rd = request.getRequestDispatcher("home.jsp"); //
+		 * rd.forward(request, response); response.sendRedirect("home.jsp");
+		 * return; } else { // response.sendRedirect("fbLogin.jsp"); return; }
+		 */
 	}
 
 }

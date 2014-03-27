@@ -36,7 +36,7 @@ import WebServices.fetchData;
 
 
 public class CurrencyDBAO {
-    private ArrayList currencies;
+    //private ArrayList currencies;
     Connection con;
     private boolean conFree = true;
     
@@ -134,7 +134,7 @@ public class CurrencyDBAO {
     
     public boolean insertCurreny(CurrencyDetails cd) throws Exception {
     	try {
-    		String insertStatement = "insert into currency values (?,?,?)";
+    		String insertStatement = "insert into currency (country_currency_code, date, value) VALUES (?,?,?)";
             getConnection();
                       
             PreparedStatement prepStmt = con.prepareStatement(insertStatement);
@@ -168,7 +168,7 @@ public class CurrencyDBAO {
             ResultSet rs = prepStmt.executeQuery();
             
             while (rs.next()) {
-                CurrencyDetails bd = new CurrencyDetails(rs.getString(1), rs.getString(2), rs.getString(3));
+                CurrencyDetails bd = new CurrencyDetails(rs.getString(2), rs.getString(3), rs.getString(4));
                 
                 if (!rs.getString(3).equals(null)) 
                 {
@@ -191,7 +191,7 @@ public class CurrencyDBAO {
     	ArrayList <String> currencies = new ArrayList<String>();
         
         try {
-            String selectStatement = "select * from currency_codes";
+            String selectStatement = "select * from currency_code";
             getConnection();
          
             PreparedStatement prepStmt = con.prepareStatement(selectStatement);;
@@ -225,7 +225,7 @@ public class CurrencyDBAO {
     	int i = 1;
     	
     	try {
-    		String insertStatement = "delete from currency_codes";
+    		String insertStatement = "delete from currency_code";
             getConnection();
                       
             PreparedStatement prepStmt = con.prepareStatement(insertStatement);                      
@@ -243,7 +243,7 @@ public class CurrencyDBAO {
     	for(String s: currencies)
     	{
     	try {
-    		String insertStatement = "insert into currency_codes values (?,?)";
+    		String insertStatement = "insert into currency_code values (?,?)";
             getConnection();
                       
             PreparedStatement prepStmt = con.prepareStatement(insertStatement);

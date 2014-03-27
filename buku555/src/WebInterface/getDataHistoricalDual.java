@@ -25,7 +25,7 @@ public class getDataHistoricalDual extends HttpServlet {
      */
     public getDataHistoricalDual() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
@@ -37,7 +37,7 @@ public class getDataHistoricalDual extends HttpServlet {
 		try {
 			dbo = new CurrencyDBAO();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		ArrayList<CurrencyDetails> ConvertToSGD = new ArrayList<CurrencyDetails>();
@@ -57,6 +57,7 @@ public class getDataHistoricalDual extends HttpServlet {
 			Double fromSGD = (toSGD)*Double.parseDouble(ConvertFromSGD.get(0).getValue());
 			
 			Double result = Math.round(fromSGD * 100.0) / 100.0;
+			//out.println(toSGD.toString()+" - "+fromSGD.toString()+" - "+result.toString());
 			out.println(result.toString());
 			
 		} catch (Exception e) {
@@ -71,7 +72,7 @@ public class getDataHistoricalDual extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 	}
 
 }

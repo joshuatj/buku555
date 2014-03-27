@@ -2,10 +2,7 @@ package WebInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +24,7 @@ public class getDataRateHistorical extends HttpServlet {
      */
     public getDataRateHistorical() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
@@ -39,7 +36,7 @@ public class getDataRateHistorical extends HttpServlet {
 		try {
 			dbo = new CurrencyDBAO();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		ArrayList<CurrencyDetails> cd = new ArrayList<CurrencyDetails>();
@@ -64,7 +61,7 @@ public class getDataRateHistorical extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

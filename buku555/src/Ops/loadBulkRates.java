@@ -24,7 +24,7 @@ public class loadBulkRates extends HttpServlet {
      */
     public loadBulkRates() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
@@ -35,7 +35,7 @@ public class loadBulkRates extends HttpServlet {
 		try {
 			dbo = new CurrencyDBAO();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+			// 
 			e1.printStackTrace();
 		}
 		Date currtme = new Date();
@@ -56,7 +56,7 @@ public class loadBulkRates extends HttpServlet {
 			dbo.addBulkCurreny("EUR", "2014-01-01", datefmt.format(current));
 			System.out.println("Done");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		}
 	}
@@ -65,7 +65,7 @@ public class loadBulkRates extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 	}
 
 }
