@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -35,7 +36,9 @@ public class accountsettingservlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
+		HttpSession sess = request.getSession(true);
+		String id = (String)sess.getAttribute("id");
 		String username = request.getParameter("name"); 
         String email = request.getParameter("email"); 
         String notistatus= request.getParameter("chk1");        
@@ -44,7 +47,7 @@ public class accountsettingservlet extends HttpServlet {
         
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku555","root","toor");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku3","root","toor");
 			
 			if(notistatus!=null)
 			{
@@ -54,11 +57,11 @@ public class accountsettingservlet extends HttpServlet {
 				chkstatus=null;
 			}
 			 				
-				PreparedStatement ps = con.prepareStatement("update user set user_name=?, email=?, Receive_Notimail=? where user_id=?"); 
+				PreparedStatement ps = con.prepareStatement("update user set user_name=?, email=?, Receive_Notimail=? where id=?"); 
 				ps.setString(1,username); 
                 ps.setString(2,email); 
                 ps.setString(3,chkstatus);
-                ps.setString(4,"1");
+                ps.setString(4,id);
                 
                 int i = ps.executeUpdate(); 
                 
@@ -92,8 +95,8 @@ public class accountsettingservlet extends HttpServlet {
 	     String opstatus="";
 	     try{
 				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku555","root","toor");
-				String selectStatement = "select * " + "from user where password=? and user_id=?";
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku3","root","toor");
+				String selectStatement = "select * " + "from user where password=? and id=?";
 				PreparedStatement prepStmt = con.prepareStatement(selectStatement);
 	            prepStmt.setString(1, oldpsw);
 	            prepStmt.setString(2,"1");
@@ -102,7 +105,7 @@ public class accountsettingservlet extends HttpServlet {
 	            
 	            if (rs.next()) {
 	            	
-	            	PreparedStatement ps = con.prepareStatement("update users set password=? where user_id=?"); 
+	            	PreparedStatement ps = con.prepareStatement("update users set password=? where id=?"); 
 					ps.setString(1,newpsw); 	              
 	                ps.setString(2,"1");
 	                int i=ps.executeUpdate(); 

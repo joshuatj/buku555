@@ -4,12 +4,17 @@
 package Mail;
 
 import java.util.Properties;
+
+import javax.mail.BodyPart;
 import javax.mail.Message;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * @author Inspiron 5421(1116)
@@ -36,15 +41,27 @@ public class SendMail {
 	    	Session ses = Session.getDefaultInstance(props,  
 	    			 new javax.mail.Authenticator() {  
 	    			  protected PasswordAuthentication getPasswordAuthentication() {  
-	    			   return new PasswordAuthentication("thiri.may08@gmail.com","icanflythirimay");  
+	    			   return new PasswordAuthentication("flappy.lms@gmail.com","lms456123");  
 	    			   }  
 	    			});  
 	    	Message msg=new MimeMessage(ses);
-	    	msg.setFrom(new InternetAddress("thiri.may08@gmail.com"));	    	
+	    	msg.setFrom(new InternetAddress("flappy.lms@gmail.com"));	    	
 	    	msg.addRecipient(Message.RecipientType.TO,new InternetAddress(mailaddtosend));
-	    	msg.setSubject(mailtitle);
-	    	msg.setText(mailtxt);
-	    	Transport.send(msg);
+	    	msg.setSubject(mailtitle);	    	
+
+	    	final MimeBodyPart textPart = new MimeBodyPart();
+	        textPart.setContent(mailtxt, "text/plain"); 
+	        // HTML version
+	        final MimeBodyPart htmlPart = new MimeBodyPart();
+	        htmlPart.setContent(mailtxt, "text/html");
+	        // Create the Multipart.  Add BodyParts to it.
+	        final Multipart mp = new MimeMultipart("alternative");
+	        mp.addBodyPart(textPart);
+	        mp.addBodyPart(htmlPart);
+	        // Set Multipart as the message's content
+	        msg.setContent(mp);
+	    	
+	    	Transport.send(msg);	 
 	    	System.out.println("Message sent");
 	    }
 
