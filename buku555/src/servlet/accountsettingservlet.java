@@ -39,29 +39,29 @@ public class accountsettingservlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession sess = request.getSession(true);
 		String id = (String)sess.getAttribute("id");
-		String username = request.getParameter("name"); 
+		//String username = request.getParameter("name"); 
         String email = request.getParameter("email"); 
         String notistatus= request.getParameter("chk1");        
-        String chkstatus;     
+        Boolean chkstatus;     
         String opstatus="";
         
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku3","root","toor");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku555","root","toor");
 			
-			if(notistatus!=null)
+			if(notistatus != null)
 			{
-				chkstatus="Checked";
+				chkstatus=true;
 			}
 			else{
-				chkstatus=null;
+				chkstatus=false;
 			}
 			 				
-				PreparedStatement ps = con.prepareStatement("update user set user_name=?, email=?, Receive_Notimail=? where id=?"); 
-				ps.setString(1,username); 
-                ps.setString(2,email); 
-                ps.setString(3,chkstatus);
-                ps.setString(4,id);
+				PreparedStatement ps = con.prepareStatement("update user set email=?, Receive_Notimail=? where id=?"); 
+				//ps.setString(1,username); 
+                ps.setString(1,email); 
+                ps.setBoolean(2,chkstatus);
+                ps.setString(3,id);
                 
                 int i = ps.executeUpdate(); 
                 
@@ -89,25 +89,26 @@ public class accountsettingservlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		HttpSession sess = request.getSession(true);
+		String id = (String)sess.getAttribute("id");
 		 String newpsw = request.getParameter("txtnewpsw");
 	     String oldpsw = request.getParameter("txtoldpsw");	     
 	     String opstatus="";
 	     try{
 				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku3","root","toor");
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku555","root","toor");
 				String selectStatement = "select * " + "from user where password=? and id=?";
 				PreparedStatement prepStmt = con.prepareStatement(selectStatement);
 	            prepStmt.setString(1, oldpsw);
-	            prepStmt.setString(2,"1");
+	            prepStmt.setString(2,id);
 	            
 	            ResultSet rs = prepStmt.executeQuery();
 	            
 	            if (rs.next()) {
 	            	
-	            	PreparedStatement ps = con.prepareStatement("update users set password=? where id=?"); 
+	            	PreparedStatement ps = con.prepareStatement("update user set password=? where id=?"); 
 					ps.setString(1,newpsw); 	              
-	                ps.setString(2,"1");
+	                ps.setString(2,id);
 	                int i=ps.executeUpdate(); 
 	                if(i!=0)
 	                {

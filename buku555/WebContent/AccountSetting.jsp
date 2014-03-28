@@ -22,24 +22,20 @@
 <h4>Profile</h4>
 <%
 try{
-
+String chk;
 HttpSession sess = request.getSession(true);
 String id = (String)sess.getAttribute("id");
 //String id="2";
 Class.forName("com.mysql.jdbc.Driver");
-Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku3","root","toor");
+Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku555","root","toor");
 Statement st=con.createStatement();
 ResultSet rs=st.executeQuery("select * from user Where id="+id);
 
-while(rs.next()){	
-	String chkstatus;
-%>
-
-Facebook User Id<input type="text" name="email" value='<%=rs.getString("fb_user_id")%>'/><br>
+while(rs.next()){
+	%>
 Email <input type="text" name="email" value='<%=rs.getString("email")%>'/><br>
 <h4>Notification</h4>  
-
-
+<input type="checkbox" name="chk1" <%=rs.getBoolean("Receive_Notimail") ? "checked" : "" %>> Receive Email Notification <br>
 <%
 }
 rs.close();

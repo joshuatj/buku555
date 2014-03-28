@@ -28,40 +28,33 @@ public class SendMail {
 	public void sendingmail(String mailaddtosend,String mailtitle, String mailtxt){
 		try{
 
-			Properties props=new Properties();
-	    	props.put("mail.smtp.host","smtp.gmail.com");
-	    	props.put("mail.smtp.socketFactory.port", "465");
-	    	props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-	    	props.put("mail.smtp.auth", "true");
-	    	props.put("mail.smtp.port", "465");
-	    	props.put("mail.debug", "false");
-	    	props.put("mail.smtp.ssl.enable", "true");
+			final String username = "flappy.lms@gmail.com";
+			final String password = "lms456123";
+	 
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
 
 
-	    	Session ses = Session.getDefaultInstance(props,  
-	    			 new javax.mail.Authenticator() {  
-	    			  protected PasswordAuthentication getPasswordAuthentication() {  
-	    			   return new PasswordAuthentication("flappy.lms@gmail.com","lms456123");  
-	    			   }  
-	    			});  
-	    	Message msg=new MimeMessage(ses);
-	    	msg.setFrom(new InternetAddress("flappy.lms@gmail.com"));	    	
-	    	msg.addRecipient(Message.RecipientType.TO,new InternetAddress(mailaddtosend));
-	    	msg.setSubject(mailtitle);	    	
-
-	    	final MimeBodyPart textPart = new MimeBodyPart();
-	        textPart.setContent(mailtxt, "text/plain"); 
-	        // HTML version
-	        final MimeBodyPart htmlPart = new MimeBodyPart();
-	        htmlPart.setContent(mailtxt, "text/html");
-	        // Create the Multipart.  Add BodyParts to it.
-	        final Multipart mp = new MimeMultipart("alternative");
-	        mp.addBodyPart(textPart);
-	        mp.addBodyPart(htmlPart);
-	        // Set Multipart as the message's content
-	        msg.setContent(mp);
+			Session session = Session.getInstance(props,
+					  new javax.mail.Authenticator() {
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(username, password);
+						}
+					  });
+			
+			
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("flappy.lms@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(mailaddtosend));
+			message.setSubject(mailtitle);
+			message.setText(mailtxt);
+ 
+			Transport.send(message);	    	
 	    	
-	    	Transport.send(msg);	 
 	    	System.out.println("Message sent");
 	    }
 
