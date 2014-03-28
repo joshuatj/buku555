@@ -103,35 +103,8 @@ window.fbAsyncInit = function () {
 				selector2.showFriendSelector();
 			});
 		
+		//end of friend selector	
 			
-			
-		//old stuff
-		var friends = [
-			  {
-			    value: "11111",
-			    label: "Duc Nguyen"
-			  },
-			  {
-			    value: "77777",
-			    label: "Mark"
-			  }, 
-			  {
-				    value: "33333",
-				    label: "Josua"
-			  }, 	  
-			  {
-				    value: "88888",
-				    label: "Jimmy"
-			  }, 		  
-			  {
-				    value: "555555",
-				    label: "Gary"
-			  },
-			  {
-				    value: "66666",
-				    label: "Thiri"
-			  }
-		];
 		
 		var totalAmount = 0;
 	    $( "#splitButton" ).click(function( event ) {

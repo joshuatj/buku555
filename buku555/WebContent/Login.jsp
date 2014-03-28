@@ -3,6 +3,7 @@
 <head></head>
 <body>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+	<script src="scripts/cookie.js"></script>
 	<div id="fb-root"></div>
 	<script>
 		window.fbAsyncInit = function() {
@@ -52,7 +53,8 @@
 			var accessToken = resp.authResponse.accessToken;
 			//alert(response.authResponse.info);			
 			//alert(response.authResponse.userID);
-			FB.api('/me', function(response) {    	
+			FB.api('/me', function(response) {
+				createCookie("loginUserId", response.id, 30);
 				//alert(response.email); 
 				//alert(response.location.latitude); 
 				/*
