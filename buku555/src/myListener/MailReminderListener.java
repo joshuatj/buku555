@@ -1,5 +1,10 @@
 package myListener;
 
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -13,7 +18,9 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import java.util.Calendar; 
+
+
+
 
 import Mail.Mailer;
 import Mail.SendMail;
@@ -29,8 +36,8 @@ public class MailReminderListener implements ServletContextListener{
 
 	@Override
     public void contextInitialized(ServletContextEvent event) {       
-		 scheduler = Executors.newSingleThreadScheduledExecutor();
-		 scheduler.scheduleAtFixedRate(new Mailer(), 0, 1, TimeUnit.HOURS);	  
+		scheduler = Executors.newSingleThreadScheduledExecutor();
+		 scheduler.scheduleAtFixedRate(new Mailer(), 0, 1, TimeUnit.HOURS);	  	 
     }
 
     @Override

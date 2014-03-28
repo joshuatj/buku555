@@ -37,7 +37,7 @@ public class Mailer implements Runnable {
 					String toaddress=rs2.getString("email");
 					String title="Reminder to pay bill";
 					String msgtxt="Dear user,"+"<br>"+ "This is the reminder for the bill you have to paid." +"<br>"+"amount to pay:" + rs2.getString("amount_to_pay");
-					mymail.sendingmail(toaddress, title, msgtxt);									
+					mymail.sendingmail( toaddress, title, msgtxt);									
 				}
 				rs2.close();
 			}
