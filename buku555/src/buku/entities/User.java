@@ -14,6 +14,7 @@ public class User implements java.io.Serializable {
 	private String fbUserId;
 	private String email;
 	private String password;
+	private boolean receiveNotiMail;
 	private boolean isRegistered;
 	private Set bills = new HashSet(0);
 	private Set loanMoneysForOwnerUserId = new HashSet(0);
@@ -32,7 +33,7 @@ public class User implements java.io.Serializable {
 		this.isRegistered = isRegistered;
 	}
 
-	public User(String fbUserId, String email, String password,
+	public User(String fbUserId, String email, String password, boolean receiveNotiMail,
 			boolean isRegistered, Set bills, Set loanMoneysForOwnerUserId,
 			Set loanMoneysForLoanUserId, Set billSpliteeses,
 			Set transactionsForFromUserId, Set loanItemsForOwnerUserId,
@@ -41,6 +42,7 @@ public class User implements java.io.Serializable {
 		this.email = email;
 		this.password = password;
 		this.isRegistered = isRegistered;
+		this.receiveNotiMail = receiveNotiMail;
 		this.bills = bills;
 		this.loanMoneysForOwnerUserId = loanMoneysForOwnerUserId;
 		this.loanMoneysForLoanUserId = loanMoneysForLoanUserId;
@@ -81,6 +83,15 @@ public class User implements java.io.Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	
+	public boolean isReceiveNotiMail() {
+		return receiveNotiMail;
+	}
+
+	public void setReceiveNotiMail(boolean receiveNotiMail) {
+		this.receiveNotiMail = receiveNotiMail;
 	}
 
 	public boolean isIsRegistered() {
