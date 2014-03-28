@@ -1,4 +1,4 @@
-package servlet;
+package buku.servlet;
 
 import java.io.IOException;
 
@@ -9,21 +9,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.userDBAO;
+import buku.dao.UserDAO;
+import buku.entities.User;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/LoginServlet1")
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private UserDAO userDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public LoginServlet() {
 		super();
-
+		userDAO = new UserDAO();
+		
 	}
 
 	/**
@@ -33,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		
 	}
 
 	/**
@@ -43,41 +46,35 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		
 		String id = request.getParameter("id");
 		String email = request.getParameter("email");
 		// String country = request.getParameter("country");
 		// String accessToken = request.getParameter("accessToken");
-		// System.out.println(id);
+		System.out.println("#############FB User Id=" + id);
+		System.out.println("#############Email=" + email);
 		// String password = request.getParameter("password");
-		// boolean result = false;
 		// ensure that out.close() do not come before response object
 
-		try {
-			userDBAO account = new userDBAO();
-			// result = account.checkUser(id);
-			account.checkUser(id, email, "user");
-			// result = true;
-			// request.getRequestDispatcher("/bookstore").forward(request,response);
-			// response.sendRedirect("fbLogin.jsp");
-			HttpSession sess = request.getSession(true);
-			sess.setAttribute("id", id);
-			// RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
-			// rd.forward(request, response);
-			response.sendRedirect("home.jsp");
-		} catch (Exception e) {
-			e.printStackTrace();
-
+		
+		User u = userDAO.findByFbId(id);
+		if (u == null){
+			System.out.println("#############NEw USer");
+			u = new User();
+			u.setFbUserId(id);
+			u.setEmail(email);
+			u.setIsRegistered(true);
+			userDAO.persist(u);
 		}
-		/*
-		 * if (result) { //
-		 * request.getRequestDispatcher("/bookstore").forward(request,response);
-		 * // response.sendRedirect("fbLogin.jsp"); HttpSession sess =
-		 * request.getSession(true); sess.setAttribute("id", id); //
-		 * RequestDispatcher rd = request.getRequestDispatcher("home.jsp"); //
-		 * rd.forward(request, response); response.sendRedirect("home.jsp");
-		 * return; } else { // response.sendRedirect("fbLogin.jsp"); return; }
-		 */
+
+		System.out.println("#############USer=" + u.getFbUserId());
+		
+		//preserve login user information
+		HttpSession sess = request.getSession(true);
+		sess.setAttribute("loginUser", u);
+		
+		response.sendRedirect("SplitBill.jsp");
+		
 	}
 
 }
