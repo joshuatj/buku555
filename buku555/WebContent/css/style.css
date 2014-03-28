@@ -129,3 +129,39 @@
 
 * html #menu             { zoom: 1; } /* IE6 */
 *:first-child+html #menu { zoom: 1; } /* IE7 */
+
+.pin-tab-upper {
+padding: 15px 10px 5px 10px;
+font-size: 14px;
+line-height: 20px;
+text-align: left;
+vertical-align: middle;
+color: #333333;
+background-color: #6fc1d8;
+}
+
+.rounded-corners {
+-webkit-border-radius: 4px 4px;
+-moz-border-radius: 4px 4px;
+border-radius: 4px 4px;
+}
+
+.pin-it {
+top: -8px;
+right: 25px;
+height: 55px;
+width: 130px;
+line-height: 50px;
+color: white;
+position: absolute;
+cursor: pointer;
+font-size: 16px;
+background: #23758b;
+text-align: center;
+}
+
+.box-shadow-3 {
+-moz-box-shadow: 3px 3px 3px #888;
+-webkit-box-shadow: 3px 3px 3px #888;
+box-shadow: 3px 3px 3px #888;
+}

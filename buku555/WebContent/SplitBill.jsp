@@ -312,8 +312,8 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 </script>
 
-
-	I paid <input id='totalAmount'> For <input id='reason'> <button id='splitButton'>Split it</button>
+<div id='splitBillrow' class="pin-tab-upper rounded-corners">
+	I paid <input id='totalAmount'> For <input id='reason'> <button id='splitButton' class="pin-it box-shadow-3">Split it</button></div>
 	<div id='splitBill' style='display:none;'>
 	
 	<!-- <div class="ui-widget">
