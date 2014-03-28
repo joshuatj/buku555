@@ -17,8 +17,8 @@
         <property name="password" type="string">
             <column name="password" length="100" />
         </property>
-        <property name="receive_notimail" type="boolean">
-            <column name="receiveNotiMail"/>
+        <property name="receiveNotiMail" type="boolean">
+            <column name="receive_notimail"/>
         </property>
         <property name="isRegistered" type="boolean">
             <column name="isRegistered" not-null="true" />
