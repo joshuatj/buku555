@@ -18,13 +18,7 @@
 			FB.Event.subscribe('auth.authResponseChange', function(response) {
 				// Here we specify what we do with the response anytime this event occurs. 
 				if (response.status == 'connected') {
-					SendUserData(response);
-					//alert(uid);
-					// alert(accessToken);
-					//FB.logout();
-					//alert(uid);                  
-					//testAPI();
-					//FB.login();    					
+					SendUserData(response);   					
 				} else if (response.status == 'not_authorized') {
 					alert("not_auth");
 					FB.login();
@@ -55,31 +49,24 @@
 			//alert(response.authResponse.userID);
 			FB.api('/me', function(response) {
 				createCookie("loginUserId", response.id, 30);
-				//alert(response.email); 
-				//alert(response.location.latitude); 
-				/*
-				var data=response;    	
-			    for (var friendIndex=0; friendIndex<data.length; friendIndex++)
-			    {
-			    	
-			           //var divContainer = document.createElement("div");
-			           //divContainer.innerHTML="<b>" + data[friendIndex].name + "</b>";
-			           //divTarget.appendChild(divContainer);
-			           alert(data[friendIndex].name);
-			    }
-			    */
+				//console.log(response); 
 			    var contextPath='<%=request.getContextPath()%>';
-			  	document.forms[0].method = "POST"
-				document.forms[0].action = contextPath+"/LoginServlet?id="
-						+ uid + "&email=" + response.email
-						+ "&accessToken=" + accessToken;
-				document.forms[0].submit();	
+			    $.ajax({
+			    	url: contextPath+"/LoginServlet",
+		    	  	type: "POST",
+		    	  	data: { 
+		    	  			id : uid,
+		    	  			email: response.email,
+		    	  			name : response.name
+		    	  			}
+			    });
+			  	//document.forms[0].method = "POST"
+				//document.forms[0].action = contextPath+"/LoginServlet?id="
+				//		+ uid + "&email=" + response.email
+				//		+ "&accessToken=" + accessToken;
+				//document.forms[0].submit();	
 			});
-			    						
-			//document.forms[0].method = "POST"
-			//document.forms[0].action = "http://localhost:8080/IP_Project/LoginServlet?id="
-				//	+ uid;
-			//document.forms[0].submit();									
+			    															
 		}
 
 		function logout() {
@@ -92,7 +79,7 @@
   Below we include the Login Button social plugin. This button uses the JavaScript SDK to
   present a graphical Login button that triggers the FB.login() function when clicked. -->
 
-	<div class="fb-login-button" data-scope="publish_actions,publish_stream,user_friends" data-max-rows="1" data-size="xlarge"
+	<div class="fb-login-button" data-scope="publish_actions,publish_stream,user_friends,email" data-max-rows="1" data-size="xlarge"
 		data-auto-logout-link="false"></div>
 	<form action="Login" method="GET">
 		<!--This is a comment. Comments are not displayed in the browser

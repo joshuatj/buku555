@@ -87,7 +87,6 @@ public class LoanItemServlet extends HttpServlet {
         if(id == null || id.isEmpty())
         {
         	item = new LoanItem();
-        	item.setUserByOwnerUserId(logInUser);
 //            dao.persist(item);
         }
         else
@@ -107,13 +106,21 @@ public class LoanItemServlet extends HttpServlet {
         String loanUserId = request.getParameter("loanUserId");
         UserDAO userDAO = new UserDAO();
         User loanUser = userDAO.findByFbId(loanUserId);
-        if (loanUser != null)
-        	item.setUserByLoanUserId(loanUser);
-        else {
+        if (loanUser == null){
         	loanUser = new User();
         	loanUser.setFbUserId(loanUserId);
+        	loanUser.setName(request.getParameter("name"));
         	userDAO.persist(loanUser);
+        	//item.setUserByLoanUserId(loanUser);
+        }
+        
+        int loanType = Integer.parseInt(request.getParameter("loanType"));
+        if (loanType == 1){
+        	item.setUserByOwnerUserId(logInUser);
         	item.setUserByLoanUserId(loanUser);
+        } else if (loanType == 2){
+        	item.setUserByOwnerUserId(loanUser);
+        	item.setUserByLoanUserId(logInUser);
         }
         
         int itemTypeId = Integer.parseInt(request.getParameter("itemType"));
@@ -121,7 +128,8 @@ public class LoanItemServlet extends HttpServlet {
         ItemType itemType = itemTypeDAO.findById(itemTypeId);
         
         item.setItemType(itemType);
-        item.setLoanStatus(request.getParameter("loanStatus"));
+        String loanStatus = request.getParameter("loanStatus") != null ? request.getParameter("loanStatus") : "LOAN";
+        item.setLoanStatus(loanStatus);
         if(id == null || id.isEmpty())
         {
             dao.persist(item);

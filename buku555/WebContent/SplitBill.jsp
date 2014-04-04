@@ -29,6 +29,8 @@ window.fbAsyncInit = function () {
 	FB.Event.subscribe('auth.authResponseChange', function(response) {
 		if (response.status == 'connected') {
 			//alert("connected");
+			
+			
 		} else if (response.status == 'not_authorized') {
 			
 		} else {
@@ -81,15 +83,8 @@ window.fbAsyncInit = function () {
 				callbackFriendUnselected : callbackFriendUnselected,
 				callbackMaxSelection     : callbackMaxSelection,
 				callbackSubmit           : callbackSubmit,
-				maxSelection             : 100,
-			});
-			selector2 = TDFriendSelector.newInstance({
-				callbackFriendSelected   : callbackFriendSelected,
-				callbackFriendUnselected : callbackFriendUnselected,
-				callbackMaxSelection     : callbackMaxSelection,
-				callbackSubmit           : callbackSubmit,
-				maxSelection             : 1,
 				friendsPerPage           : 5,
+				maxSelection             : 20,
 				autoDeselection          : true
 			});
 			
@@ -98,10 +93,6 @@ window.fbAsyncInit = function () {
 				selector1.showFriendSelector();
 			});
 
-			$("#btnSelect2").click(function (e) {
-				e.preventDefault();
-				selector2.showFriendSelector();
-			});
 		
 		//end of friend selector	
 			
@@ -113,15 +104,22 @@ window.fbAsyncInit = function () {
 	        $('[name=amount1]').val(totalAmount);
 	    });
 	    
+	    $("#test").click(function( event ) {
+	    	resetAll();
+	    });
+	    
 	    $("#pinitBtn").click(function( event ) {
 	    	
 	    	var fbIds = new Array();
 	    	var amounts = new Array();
+	    	var names = new Array();
 	    	//push login user id
 	    	fbIds.push(readCookie("loginUserId"));
+	    	names.push("me");
 	    	for(var i=2; i<= counter; i++){
 	    		//console.log($('[name=id'+ i +']').val());
 	    		fbIds.push($('[name=id'+ i +']').val());
+	    		names.push($('[name=name'+ i +']').val());
 	    	}
 	    	for(var i=1; i<= counter; i++){
 	    		//console.log($('[name=amount'+ i +']').val());
@@ -135,11 +133,17 @@ window.fbAsyncInit = function () {
 	    		data: {
 	    			totalAmount : totalAmount,
 	    			reason : $("#reason").val(),
-	    			fbIds: fbIds, 
-	    			amounts : amounts 
+	    			fbIds: fbIds,
+	    			names: names,
+	    			amounts : amounts
 	    			},
 	    		success : function (data) {
-	    			alert(data);
+	    			// clear all the data
+	    			if (data == "success"){
+	    				alert(data);
+	    				resetAll();
+	    			}
+	    			
 	    		}
 	    		});
 	    });
@@ -156,6 +160,14 @@ window.fbAsyncInit = function () {
 	        $( "#log" ).scrollTop( 0 );
 	      }
 	    
+	    function resetAll(){
+	    	$("#reason").val('');
+			$("#totalAmount" ).val('');
+			$('#splitBill').hide();
+			$("#myTable tr:gt(1)").remove();
+			counter = $('#myTable tr').length - 1;
+	    }
+	    
 	    var counter = $('#myTable tr').length - 1;
 	    //counter = $('#myTable tr').length - 2;
 	    
@@ -166,7 +178,10 @@ window.fbAsyncInit = function () {
 	        
 	        
 	        
-	        cols += '<td>' + name + '<input type="hidden" name="id' + counter + '" value="' + id +'" />' +'</td>';
+	        cols += '<td>' + name + 
+	        '<input type="hidden" name="id' + counter + '" value="' + id +'" />' +
+	        '<input type="hidden" name="name' + counter + '" value="' + name +'" />' + 
+	        '</td>';
 	        //cols += '<td><input type="text" name="name' + counter + '" value="' + name +'" /></td>';
 	        cols += '<td><input type="text" name="amount' + counter + '" /></td>';
 
@@ -186,7 +201,6 @@ window.fbAsyncInit = function () {
 	    	}
 
 	    $("table.splitee-list").on("change", 'input[name^="amount"]', function (event) {
-	    	//alert();
 	    	
 	    	var currentAmount = $(event.target).val();
 	    	var amountLeft = totalAmount - currentAmount;
@@ -220,8 +234,8 @@ window.fbAsyncInit = function () {
 	    } */
 
 	    function calculateShareAmount(amount, numberShare){
-	    	console.log(amount);
-	    	console.log(numberShare);
+	    	//console.log(amount);
+	    	//console.log(numberShare);
 	    	if (amount % numberShare == 0){
 	    		return amount / numberShare;
 	    	} else {
@@ -242,7 +256,7 @@ window.fbAsyncInit = function () {
 	        $("#grandtotal").text(grandTotal.toFixed(2));
 	    } */
 	    
-	    
+	   /* 
 	   $( "#friends" ).autocomplete({
 	    	minLength: 2,
 	        source: friends,
@@ -255,10 +269,10 @@ window.fbAsyncInit = function () {
 	             
 	              return false;
 	          }
-	      });
+	      });*/
 	    
 	    
-	   function getFriends(){
+	   /* function getFriends(){
 			FB.getLoginStatus(function(response) {
 				//alert("fuck1");
 				if (response.status === 'connected') {
@@ -290,7 +304,7 @@ window.fbAsyncInit = function () {
 				}); }
 			});
 			
-		}
+		}*/
 	    
 	    
 	}); //end docmument ready
@@ -386,16 +400,9 @@ window.fbAsyncInit = function () {
 		    </tbody>
 		</table>
 		
-	
-	
-		
-		<!-- <div class="ui-widget" style="margin-top:2em; font-family:Arial">
-		  Result:
-		  <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
-		</div> -->
-		<!-- <input id='nameAdd'>  -->
-		<!-- <button id='addBtn'>Add</button> -->
+		<br> <button id='pinitBtn'>Pin It!</button>
+		<br> <button id='test'>Test</button>
 	</div>
-	<br> <button id='pinitBtn'>Pin It!</button>   
+	   
 </body>
 </html>

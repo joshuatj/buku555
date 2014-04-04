@@ -17,6 +17,9 @@
         <property name="password" type="string">
             <column name="password" length="100" />
         </property>
+        <property name="name" type="string">
+            <column name="name" length="50" />
+        </property>
         <property name="receiveNotiMail" type="boolean">
             <column name="receive_notimail"/>
         </property>

@@ -49,25 +49,21 @@ public class LoginServlet extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		String email = request.getParameter("email");
-		// String country = request.getParameter("country");
-		// String accessToken = request.getParameter("accessToken");
+		String name = request.getParameter("name");
 		System.out.println("#############FB User Id=" + id);
-		System.out.println("#############Email=" + email);
-		// String password = request.getParameter("password");
-		// ensure that out.close() do not come before response object
+		//System.out.println("#############Email=" + email);
 
 		
 		User u = userDAO.findByFbId(id);
 		if (u == null){
-			System.out.println("#############NEw USer");
+			System.out.println("#############New User");
 			u = new User();
 			u.setFbUserId(id);
 			u.setEmail(email);
+			u.setName(name);
 			u.setIsRegistered(true);
 			userDAO.persist(u);
 		}
-
-		System.out.println("#############USer=" + u.getFbUserId());
 		
 		//preserve login user information
 		HttpSession sess = request.getSession(true);

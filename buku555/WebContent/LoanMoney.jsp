@@ -21,7 +21,7 @@ window.fbAsyncInit = function () {
 			
 		} else {
 			//window.navigate("fbLogin.jsp");				
-			location.href = "fbLogin.jsp";
+			location.href = "Login.jsp";
 		}
 	});
 };
@@ -58,7 +58,7 @@ function GetFriendDetailsByID(id) {
  	<tbody>
 		<c:forEach items="${oweMoney}" var="item">
             <tr>
-                <td><c:out value="${item.userByOwnerUserId.fbUserId}" /></td>
+                <td><c:out value="${item.userByOwnerUserId.name}" /></td>
                 <td><c:out value="${item.totalLoanAmount}" /></td>
                 <td><a href="LoanMoneyServlet?action=settle&id=<c:out value="${item.id}"/>&select=1">Settle</a></td>
                <%--  <td><a href="BillServlet?action=viewShare&id=<c:out value="${item.id}"/>">View Share</a></td> --%>
@@ -79,7 +79,7 @@ function GetFriendDetailsByID(id) {
  	<tbody>
 		<c:forEach items="${loanMoney}" var="item">
             <tr>
-                <td><c:out value="${item.userByLoanUserId.fbUserId}" /></td>
+                <td><c:out value="${item.userByLoanUserId.name}" /></td>
                 <td><c:out value="${item.totalLoanAmount}" /></td>
                 <td><a href="LoanMoneyServlet?action=settle&id=<c:out value="${item.id}&select=2"/>">Settle</a></td>
                <%--  <td><a href="BillServlet?action=viewShare&id=<c:out value="${item.id}"/>">View Share</a></td> --%>

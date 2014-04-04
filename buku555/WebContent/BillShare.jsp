@@ -25,7 +25,7 @@
  	<tbody>
           <c:forEach items="${billItems}" var="item">
                 <tr>
-                    <td><c:out value="${item.user.fbUserId}" /></td>
+                    <td><c:out value="${item.user.name}" /></td>
                     <td><c:out value="${item.totalAmount}" /></td>
                     <td><c:out value="${item.date}" /></td>
                     <td><c:out value="${item.reason}" /></td>

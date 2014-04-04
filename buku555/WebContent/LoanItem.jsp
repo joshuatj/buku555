@@ -10,8 +10,9 @@
 <link type="text/css" href="${pageContext.request.contextPath}/css/jquery-ui.css" rel="stylesheet" />
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
-    <script type="text/javascript" src="scripts/facebook-friend-autocomplete.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/facebook-friend-autocomplete.css">
+<script type="text/javascript" src="scripts/facebook-friend-autocomplete.js"></script>
+<script type="text/javascript" src="scripts/global.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/facebook-friend-autocomplete.css">
 <title>Add new loan item</title>
 </head>
 <body>
@@ -105,6 +106,7 @@
               onpick: function(friend) { 
             	  $(this).val(friend.name); 
             	  $('#loanUserId').val(friend.id);
+            	  //console.log(friend);
                 //createFriendElement(friend).insertBefore($(this)).next().remove();
               }
           });
@@ -121,11 +123,29 @@
 	        if ("${loanItem.itemType.id}" != "")
 	        	$("#itemType").val("${loanItem.itemType.id}");
 	        
-	        if ("${loanItem.loanStatus}" != "")
+	        if ("${loanItem.loanStatus}" != ""){
 	        	$("#loanStatus").val("${loanItem.loanStatus}");
+	        }
+	        	
 	        
-	        $('#name').val("${loanItem.userByLoanUserId.fbUserId}");
 	        
+	        
+	        var action = getURLParam("action");
+	        var loanType = getURLParam("loanType");
+	        if (action == "insert"){
+	        	$( '#loanStatus' ).prop( "disabled", true );
+	        } else if (action == "edit"){
+	        	if (loanType == "1"){
+	        		$('#name').val("${loanItem.userByLoanUserId.name}");
+	    	        $('#loanUserId').val("${loanItem.userByLoanUserId.fbUserId}");
+	        		$('input:radio[name=loanType]')[0].checked = true;
+	      		}else if (loanType = "2"){
+	      			$('#name').val("${loanItem.userByOwnerUserId.name}");
+	    	        $('#loanUserId').val("${loanItem.userByOwnerUserId.fbUserId}");
+	      			$('input:radio[name=loanType]')[1].checked = true;
+	      		}
+	        }
+      		
 	        //$('#name').val("${loanItem.userByLoanUserId.fbUserId}");
 	        //var textToShow = $('#name').find(":selected").text();
 	        
@@ -134,6 +154,8 @@
 	    });
     };
 
+    
+    
     function createFriendElement(friend) {
       var $img = $('<img>').attr('src', friend.picture),
           $name = $('<h3>').text(friend.name),
@@ -162,8 +184,10 @@
         Date : <input
             type="text" name="date"
             value="<fmt:formatDate pattern="MM/dd/yyyy" value="${loanItem.date}" />" /> <br /> 
-        Loan User : 
-      <input type="text" id="name" style="width: 200px;" />
+        Lend <input type="radio" name="loanType" value="1"> &nbsp;
+        Borrow <input type="radio" name="loanType" value="2"> <br /> 
+        Select Friend : 
+      <input type="text" id="name" name="name" style="width: 200px;" />
       <input type="hidden" id="loanUserId" name="loanUserId"> 
         <%-- <input
             type="text" name="loanUser" id="loanUser"

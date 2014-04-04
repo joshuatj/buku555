@@ -11,12 +11,13 @@
 </head>
 <body>
 <script type="text/javascript"></script>
+<p>Things I Lend</p>
 <table border="1" cellpadding="0" cellspacing="0">
 	<thead>
      <tr>
          <th>Description</th>
          <th>Date</th>
-         <th>Loan User</th>
+         <th>To User</th>
          <th>Item Type</th>
          <th>Loan Status</th>
          <th colspan=2>Action</th>
@@ -28,10 +29,38 @@
                     <td><c:out value="${item.description}" /></td>
                     <td><fmt:formatDate pattern="yyyy-MMM-dd" value="${item.date}" /></td>
                     <%-- <td><c:out value="${item.userByLoanUserId.fbUserId}" /></td> --%>
-                    <td><c:out value="${item.userByLoanUserId.fbUserId}" /></td>
+                    <td><c:out value="${item.userByLoanUserId.name}" /></td>
                     <td><c:out value="${item.itemType.itemTypeName}" /></td>
                     <td><c:out value="${item.loanStatus}" /></td>
-                    <td><a href="LoanItemServlet?action=edit&id=<c:out value="${item.id}"/>">Update</a></td>
+                    <td><a href="LoanItemServlet?action=edit&loanType=1&id=<c:out value="${item.id}"/>">Update</a></td>
+                    <td><a href="LoanItemServlet?action=delete&id=<c:out value="${item.id}"/>">Delete</a></td>
+                    <%-- <td><a href="TestServlet?action=split&billId=<c:out value="${item.id}"/>">Split</a></td> --%>
+                </tr>
+            </c:forEach>
+    </tbody>
+</table>
+<p>Things I Borrow</p>
+<table border="1" cellpadding="0" cellspacing="0">
+	<thead>
+     <tr>
+         <th>Description</th>
+         <th>Date</th>
+         <th>From User</th>
+         <th>Item Type</th>
+         <th>Loan Status</th>
+         <th colspan=2>Action</th>
+     </tr>
+ 	</thead>
+ 	<tbody>
+          <c:forEach items="${borrowItems}" var="item">
+                <tr>
+                    <td><c:out value="${item.description}" /></td>
+                    <td><fmt:formatDate pattern="yyyy-MMM-dd" value="${item.date}" /></td>
+                    <%-- <td><c:out value="${item.userByLoanUserId.fbUserId}" /></td> --%>
+                    <td><c:out value="${item.userByOwnerUserId.name}" /></td>
+                    <td><c:out value="${item.itemType.itemTypeName}" /></td>
+                    <td><c:out value="${item.loanStatus}" /></td>
+                    <td><a href="LoanItemServlet?action=edit&loanType=2&id=<c:out value="${item.id}"/>">Update</a></td>
                     <td><a href="LoanItemServlet?action=delete&id=<c:out value="${item.id}"/>">Delete</a></td>
                     <%-- <td><a href="TestServlet?action=split&billId=<c:out value="${item.id}"/>">Split</a></td> --%>
                 </tr>
@@ -39,6 +68,6 @@
     </tbody>
 </table>
 <p><a href="LoanItemServlet?action=insert">Add Loan Item</a></p>
-<p><a href="/HibernateTest/SplitBill.jsp">Add new Bill</a></p>
+<p><a href="${pageContext.request.contextPath}/SplitBill.jsp">Add new Bill</a></p>
 </body>
 </html>

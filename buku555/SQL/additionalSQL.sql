@@ -6,3 +6,5 @@ ALTER TABLE `buku555`.`bill_splitees` CHANGE COLUMN `amount_to_pay` `amount_to_p
 
 -- add column receive_notimail to let user choose to receive email or not
 ALTER TABLE `buku555`.`user` ADD COLUMN `receive_notimail` BIT NULL DEFAULT 1  AFTER `password` ;
+
+ALTER TABLE `buku555`.`user` ADD COLUMN `name` varchar(50) NULL AFTER `password` ;

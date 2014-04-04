@@ -72,6 +72,7 @@ public class SplitBillServlet extends HttpServlet {
 		//Create new splitee
 		String[] fbIds = request.getParameterValues("fbIds[]");
 		String[] amounts = request.getParameterValues("amounts[]");
+		String[] names = request.getParameterValues("names[]");
 		for (int i = 0; i < amounts.length; i++) {
 			BillSplitees splitee = new BillSplitees();
 			Double amountToPay = Double.parseDouble(amounts[i]);
@@ -82,6 +83,7 @@ public class SplitBillServlet extends HttpServlet {
 			} else {
 				u = new User();
 				u.setFbUserId(fbIds[i]);
+				u.setName(names[i]);
 				//u.setEmail(email);
 				u = userDAO.persist(u);
 				splitee.setUser(u);
