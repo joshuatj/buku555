@@ -24,8 +24,8 @@
 try{
 String chk;
 HttpSession sess = request.getSession(true);
-String id = (String)sess.getAttribute("id");
-//String id="2";
+//String id = (String)sess.getAttribute("id");
+String id="1";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku555","root","toor");
 Statement st=con.createStatement();
@@ -35,7 +35,26 @@ while(rs.next()){
 	%>
 Email <input type="text" name="email" value='<%=rs.getString("email")%>'/><br>
 <h4>Notification</h4>  
+<input type="hidden" name="id" value='<%=id%>'>  
 <input type="checkbox" name="chk1" <%=rs.getBoolean("Receive_Notimail") ? "checked" : "" %>> Receive Email Notification <br>
+
+</div>
+
+
+<div>
+<input type="submit" name="update" Value="Update"/>
+</div>
+</form>
+<form action="accountsettingservlet" method="POST">
+<div>
+<h4>Reset Password</h4>
+<input type="hidden" name="id" value='<%=id%>'>  
+Enter Old Password<input type="Password" name="txtoldpsw"/><br>
+Enter New Password<input type="Password" name="txtnewpsw"/><br>
+</div>
+<div>
+<input type="submit" name="reset" Value="Reset" />
+</div>
 <%
 }
 rs.close();
@@ -47,23 +66,6 @@ catch(Exception e){
 }
 finally {}
 %>
-</div>
-
-
-<div>
-<input type="submit" name="update" Value="Update"/>
-</div>
-</form>
-<form action="accountsettingservlet" method="POST">
-<div>
-<h4>Reset Password</h4>
-
-Enter Old Password<input type="Password" name="txtoldpsw"/><br>
-Enter New Password<input type="Password" name="txtnewpsw"/><br>
-</div>
-<div>
-<input type="submit" name="reset" Value="Reset" />
-</div>
 </form>
 </body>
 </html>

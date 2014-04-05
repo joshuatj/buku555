@@ -38,8 +38,8 @@ public class accountsettingservlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession sess = request.getSession(true);
-		String id = (String)sess.getAttribute("id");
-		//String username = request.getParameter("name"); 
+		//String id = (String)sess.getAttribute("id");
+		String id = request.getParameter("id"); 
         String email = request.getParameter("email"); 
         String notistatus= request.getParameter("chk1");        
         Boolean chkstatus;     
@@ -90,7 +90,8 @@ public class accountsettingservlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession sess = request.getSession(true);
-		String id = (String)sess.getAttribute("id");
+		//String id = (String)sess.getAttribute("id");
+		String id=request.getParameter("id");
 		 String newpsw = request.getParameter("txtnewpsw");
 	     String oldpsw = request.getParameter("txtoldpsw");	     
 	     String opstatus="";
