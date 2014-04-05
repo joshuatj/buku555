@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+	  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+	  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/buku555</property>
+	  <property name="hibernate.connection.username">root</property>
+	  <property name="hibernate.connection.password">admin</property>
+	  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+	  <property name="hibernate.current_session_context_class">thread</property>
+	  
+	  <mapping resource="buku/entities/BillSplitees.hbm.xml"/>
+	  <mapping resource="buku/entities/Bill.hbm.xml"/>
+	  <mapping resource="buku/entities/Currency.hbm.xml"/>
+	  <mapping resource="buku/entities/CurrencyCode.hbm.xml"/>
+	  <mapping resource="buku/entities/LoanMoney.hbm.xml"/>
+	  <mapping resource="buku/entities/ItemType.hbm.xml"/>
+	  <mapping resource="buku/entities/LoanItem.hbm.xml"/>
+	  <mapping resource="buku/entities/Transaction.hbm.xml"/>
+	  <mapping resource="buku/entities/User.hbm.xml"/>
+ </session-factory>
+</hibernate-configuration>
