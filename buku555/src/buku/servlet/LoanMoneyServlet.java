@@ -1,9 +1,9 @@
 package buku.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,12 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import buku.dao.BillSpliteesDAO;
-import buku.dao.LoanItemDAO;
 import buku.dao.LoanMoneyDAO;
 import buku.dao.TransactionDAO;
 import buku.dao.UserDAO;
-import buku.entities.LoanItem;
 import buku.entities.LoanMoney;
 import buku.entities.Transaction;
 import buku.entities.User;
@@ -54,17 +51,15 @@ public class LoanMoneyServlet extends HttpServlet {
 		String forward="";
         String action = request.getParameter("action");
         HttpSession sess = request.getSession();
-		//User logInUser = userDAO.findByFbId("11111");
 		User logInUser = (User) sess.getAttribute("loginUser");
         
-        //User logInUser = userDAO.findByFbId("11111");
 
        if (action.equalsIgnoreCase("settle")){
             forward = PAYMENT;
             int id = Integer.parseInt(request.getParameter("id"));
             LoanMoney item = loanMoneyDAO.findById(id);
             
-            request.setAttribute("selectWhoPaid", request.getParameter("select"));
+            request.setAttribute("select", request.getParameter("select"));
             request.setAttribute("loanItem", item);
         } else if (action.equalsIgnoreCase("list")){
             forward = LIST_LOAN_ITEM;
@@ -105,44 +100,60 @@ public class LoanMoneyServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		double amount = Double.parseDouble(request.getParameter("amount"));
-		int fromWho = Integer.parseInt(request.getParameter("fromWho"));
-		int toWho = Integer.parseInt(request.getParameter("toWho"));
-		//int whoPaid = Integer.parseInt(request.getParameter("whoPaid"));
+		String fbId = request.getParameter("fbId");
+		int selectWhoPaid = Integer.parseInt(request.getParameter("selectWhoPaid"));
+		String name = request.getParameter("name");
 		
-		Transaction t = new Transaction();
-		t.setPaidAmount(amount);
-		t.setUserByFromUserId(userDAO.findById(fromWho));
-		t.setUserByToUserId(userDAO.findById(toWho));
-//		if (whoPaid == 1){
-//			t.setUserByFromUserId(userDAO.findById(fromWho));
-//			t.setUserByToUserId(userDAO.findById(toWho));
-//		} else if (whoPaid == 1){
-//			t.setUserByFromUserId(userDAO.findById(toWho));
-//			t.setUserByToUserId(userDAO.findById(fromWho));
-//		}
-		t.setTransactionDate(new Date());
+		User loginUser = (User) request.getSession().getAttribute("loginUser");
+		User fbUser = userDAO.findByFbId(fbId);
+		if (fbUser == null){
+			fbUser = new User();
+			fbUser.setFbUserId(fbId);
+			fbUser.setName(name);
+			fbUser = userDAO.persist(fbUser);
+		}
+		User fromWhoUser = null;
+		User toWhoUser = null;
+		if (selectWhoPaid == 1 || selectWhoPaid == 4){
+			fromWhoUser = loginUser;
+			toWhoUser = fbUser;
+		} else if (selectWhoPaid == 2 || selectWhoPaid == 3){
+			fromWhoUser = fbUser;
+			toWhoUser = loginUser;
+		}
 		
-		transactionDAO.persist(t);
+		// if paid, record the transaction
+		if (selectWhoPaid == 1 || selectWhoPaid == 2){
+			Transaction t = new Transaction();
+			t.setPaidAmount(amount);
+			t.setUserByFromUserId(fromWhoUser);
+			t.setUserByToUserId(toWhoUser);
+			t.setTransactionDate(new Date());
+			
+			transactionDAO.persist(t);
+		}
+		
 		
 		// record loan money if there's no loan money between these 2 users
-		LoanMoney loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(fromWho, toWho);
+		LoanMoney loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(fromWhoUser.getId(), toWhoUser.getId());
 		if (loanMoney != null){
 			loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() + amount);
 		} else {
-			loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(toWho, fromWho);
+			loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(toWhoUser.getId(), fromWhoUser.getId());
 			if (loanMoney != null){
 				loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() - amount);
 			} else {
 				loanMoney = new LoanMoney();
-				loanMoney.setUserByOwnerUserId(userDAO.findById(fromWho));
-				loanMoney.setUserByLoanUserId(userDAO.findById(toWho));
+				loanMoney.setUserByOwnerUserId(fromWhoUser);
+				loanMoney.setUserByLoanUserId(toWhoUser);
 				loanMoney.setTotalLoanAmount(amount);
 			}
 			
 		}
 		loanMoneyDAO.update(loanMoney);
 		
-		
+		PrintWriter out = response.getWriter();
+		out.println("success");
 	}
 
 }
