@@ -1,0 +1,107 @@
+body {
+  padding-top: 50px;
+}
+
+.bg-green{
+  background: #D2EE9E;
+  border-bottom: 1px solid #D2EE9E;
+}
+
+.w230{
+ width: 230px;
+}
+
+.mb-20{
+margin-bottom: 20px;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.landing {
+  padding: 40px 15px;
+  text-align: center;
+}
+.action-form{
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 620px;
+}
+.recent-history-table{
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  width: 620px;
+}
+
+.rounded-corners {
+-webkit-border-radius: 4px 4px;
+-moz-border-radius: 4px 4px;
+border-radius: 4px 4px;
+}
+
+.pin-tab-upper {
+padding: 15px 10px 15px 10px;
+font-size: 14px;
+line-height: 20px;
+text-align: left;
+vertical-align: middle;
+color: #333333;
+background-color: #D2EE9E;
+-webkit-border-radius: 4px 4px 0 0;
+-moz-border-radius: 4px 4px 0 0;
+border-radius: 4px 4px 0 0;
+}
+
+.pin-tab-lower {
+border: 1px solid #d1d1d1;
+padding: 20px 50px;
+font-size: 16px;
+line-height: 20px;
+text-align: left;
+vertical-align: middle;
+color: #333333;
+background-color: white;
+-webkit-border-radius: 0 0 4px 4px;
+-moz-border-radius: 0 0 4px 4px;
+border-radius: 0 0 4px 4px;
+}
+
+
+.box-shadow-3 {
+-moz-box-shadow: 3px 3px 3px #888;
+-webkit-box-shadow: 3px 3px 3px #888;
+box-shadow: 3px 3px 3px #888;
+}
+
+.split-bill {
+width: 130px;
+color: white;
+cursor: pointer;
+font-size: 16px;
+background: #176F1E;
+text-align: center;
+}
+
+.pin-it{
+width: 130px;
+color: white;
+cursor: pointer;
+font-size: 16px;
+background: #F09050;
+text-align: center;
+}
+
+.max-width{
+width: 93%;
+}
+
+.record-payment{
+margin-top: 40px;
+margin-left: auto;
+margin-right: auto;
+width: 800px;
+}
