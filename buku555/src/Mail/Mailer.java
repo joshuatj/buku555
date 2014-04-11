@@ -26,7 +26,7 @@ public class Mailer implements Runnable {
 			Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/buku3","root","toor");
 				
 				Statement st2=(Statement) con.createStatement();				
-				ResultSet rs2=((java.sql.Statement) st2).executeQuery("SELECT * FROM loan_money,user where loan_money.loan_user_id=user.id");
+				ResultSet rs2=((java.sql.Statement) st2).executeQuery("SELECT * FROM loan_money,user where loan_money.loan_user_id=user.id and Received_Notimail='1'");
 				while(rs2.next()){					
 					SendMail mymail=new SendMail();
 					String toaddress=rs2.getString("email");
@@ -37,7 +37,7 @@ public class Mailer implements Runnable {
 				}
 				rs2.close();			
 				Statement st3=(Statement) con.createStatement();
-			ResultSet rs3=((java.sql.Statement) st3).executeQuery("select * from loan_item,user where loan_item.loan_user_id=user.id and loan_item.loan_status='1'");
+			ResultSet rs3=((java.sql.Statement) st3).executeQuery("select * from loan_item,user where loan_item.loan_user_id=user.id and loan_item.loan_status='1' and Received_Notimail='1'");
 			while(rs3.next()){
 				//String Owner_id=rs3.getString("owner_user_id");
 				SendMail mymail=new SendMail();
