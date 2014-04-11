@@ -6,7 +6,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Loan Money</title>
+<!-- Bootstrap core CSS -->
+ <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="css/bootstrap/custom.css" rel="stylesheet">
 </head>
 <body>
 <div id="fb-root"></div>
@@ -36,18 +47,40 @@ window.fbAsyncInit = function () {
 	js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1473514739530656";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-
-
-//function
-function GetFriendDetailsByID(id) {				
-	FB.api('/'+id, function(response) {    	
-		alert(response.name); 
-		//alert(response.friends);
-	});		    																
-}	
+	
 </script>
+<!-- Start navigation -->
+<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">buku555</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="">Home</a></li>
+			<li><a href="SplitBill.jsp">Split Bill</a></li>
+			<li class="active"><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
+            <li><a href="history.html">History</a></li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+ <!-- end navigation  -->
+ 
+ <div class="container">
+ <div class="landing">
+ <h1>buku 555 - lending made social</h1>
+ <div class="recent-history-table">
 <p>I owe Friends</p>
-<table border="1">
+<table class="table table-striped table-bordered">
  	<thead>
      <tr>
          <th>Friends</th>
@@ -66,9 +99,10 @@ function GetFriendDetailsByID(id) {
         </c:forEach>
  	</tbody>
 </table>
-
+</div>
+<div class="recent-history-table">
 <p>Friends owe me</p>
-<table border="1">
+<table class="table table-striped table-bordered">
  	<thead>
      <tr>
          <th>Friends</th>
@@ -87,6 +121,8 @@ function GetFriendDetailsByID(id) {
         </c:forEach>
  	</tbody>
 </table>
-
+</div>
+</div>
+</div>
 </body>
 </html>

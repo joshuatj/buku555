@@ -7,12 +7,51 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Loan Item List</title>
+<!-- Bootstrap core CSS -->
+ <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="css/bootstrap/custom.css" rel="stylesheet">
 </head>
 <body>
 <script type="text/javascript"></script>
+
+<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">buku555</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="">Home</a></li>
+			<li><a href="SplitBill.jsp">Split Bill</a></li>
+			<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+			<li class="active"><a href="LoanItemServlet?action=list">Record Item</a></li>
+            <li><a href="history.html">History</a></li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    
+    <div class="container">
+    <div class="landing">
+    <h1>buku 555 - lending made social</h1>
+    <div class="recent-history-table">
 <p>Things I Lend</p>
-<table border="1" cellpadding="0" cellspacing="0">
+<table class="table table-striped table-bordered">
 	<thead>
      <tr>
          <th>Description</th>
@@ -39,8 +78,10 @@
             </c:forEach>
     </tbody>
 </table>
+</div>
+<div class="recent-history-table">
 <p>Things I Borrow</p>
-<table border="1" cellpadding="0" cellspacing="0">
+<table class="table table-striped table-bordered">
 	<thead>
      <tr>
          <th>Description</th>
@@ -67,7 +108,13 @@
             </c:forEach>
     </tbody>
 </table>
+</div>
 <p><a href="LoanItemServlet?action=insert">Add Loan Item</a></p>
 <p><a href="${pageContext.request.contextPath}/SplitBill.jsp">Add new Bill</a></p>
+
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
 </body>
 </html>

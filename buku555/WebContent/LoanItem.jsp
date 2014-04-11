@@ -7,6 +7,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="css/bootstrap/custom.css" rel="stylesheet">
+
 <link type="text/css" href="${pageContext.request.contextPath}/css/jquery-ui.css" rel="stylesheet" />
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
@@ -175,6 +185,36 @@
         
     </script>
 
+<!-- Start navigation -->
+<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">buku555</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="">Home</a></li>
+			<li><a href="SplitBill.jsp">Split Bill</a></li>
+			<li class="active"><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
+            <li><a href="history.html">History</a></li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+ <!-- end navigation  -->
+ <div class="container">
+ <div class="landing">
+ <h1>buku 555 - lending made social</h1>
+ <p class="lead">Record a loan item</p>
+<div class="record-payment">
     <form method="POST" action='LoanItemServlet' name="frmAddLoanItem">
         <input type="hidden" readonly="readonly" name="id"
             value="<c:out value="${loanItem.id}" />" /> <br /> 
@@ -206,5 +246,9 @@
       				 </select> <br/>
         <input type="submit" value="Submit" />
     </form>
+ </div>
+ </div>
+ </div>
+ <script src="scripts/bootstrap.min.js"></script>
 </body>
 </html>

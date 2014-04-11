@@ -4,19 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<!-- <script type="text/javascript" src="scripts/jquery-1.11.0.js"></script>
-<script src="scripts/jquery-ui.js" type="text/javascript"></script> -->
-<link
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- <link
  rel="stylesheet"
- href="http://code.jquery.com/ui/1.9.0/themes/smoothness/jquery-ui.css" />
- <script src="//code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-  <script src="scripts/tdfriendselector.js"></script>
-  <script src="scripts/cookie.js"></script>
-<!--  <script src="http://connect.facebook.net/en_US/all.js"></script> -->
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/demos.css"> --%>
+ href="http://code.jquery.com/ui/1.9.0/themes/smoothness/jquery-ui.css" /> -->
+<link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
+<script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
+<script src="scripts/jquery-ui.js" type="text/javascript"></script>
+ <script src="scripts/cookie.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/tdfriendselector.css">
+<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap/custom.css" rel="stylesheet">
 <title>Split Bill</title>
 </head>
 <body>
@@ -35,66 +37,60 @@ window.fbAsyncInit = function () {
 			
 		} else {
 			//window.navigate("fbLogin.jsp");				
-			location.href = "fbLogin.jsp";
+			location.href = "Login.jsp";
 		}
 	});
 	
+
+	
 	$(document ).ready(function() {
-		//console.log(getFriends());
-		//console.log(friend1s);
-		//friend1s = getFriends();
 		
-		var selector1, selector2, logActivity, callbackFriendSelected, callbackFriendUnselected, callbackMaxSelection, callbackSubmit;
-
-			// When a friend is selected, log their name and ID
-			callbackFriendSelected = function(friendId) {
-				var friend, name;
-				friend = TDFriendSelector.getFriendById(friendId);
-				//console.log(friend);
-				name = friend.name;
-				console.log('Selected ' + name + ' (ID: ' + friendId + ')');
-				addNewRow(friendId, name);
-			};
-
-			// When a friend is deselected, log their name and ID
-			callbackFriendUnselected = function(friendId) {
-				var friend, name;
-				friend = TDFriendSelector.getFriendById(friendId);
-				name = friend.name;
-				console.log('Unselected ' + name + ' (ID: ' + friendId + ')');
-			};
-
-			// When the maximum selection is reached, log a message
-			callbackMaxSelection = function() {
-				//logActivity('Selected the maximum number of friends');
-			};
-
-			// When the user clicks OK, log a message
-			callbackSubmit = function(selectedFriendIds) {
-				//logActivity('Clicked OK with the following friends selected: ' + selectedFriendIds.join(", "));
-			};
-
-			// Initialise the Friend Selector with options that will apply to all instances
-			TDFriendSelector.init({debug: true});
-
-			// Create some Friend Selector instances
-			selector1 = TDFriendSelector.newInstance({
-				callbackFriendSelected   : callbackFriendSelected,
-				callbackFriendUnselected : callbackFriendUnselected,
-				callbackMaxSelection     : callbackMaxSelection,
-				callbackSubmit           : callbackSubmit,
-				friendsPerPage           : 5,
-				maxSelection             : 20,
-				autoDeselection          : true
-			});
+		//fb autocomplte friends
+		FB.getLoginStatus(function (response) {
 			
-			$("#btnSelect1").click(function (e) {
-				e.preventDefault();
-				selector1.showFriendSelector();
-			});
+			if (response.authResponse) {	// if the user is authorized...
+				var accessToken = response.authResponse.accessToken
+				var tokenUrl = "https://graph.facebook.com/me/friends?access_token=" + accessToken + "&callback=?"
 
-		
-		//end of friend selector	
+				// Place <input id="name" /> and <input id="fbuid" /> into HTML
+				//console.log(tokenUrl);
+				$("#name").autocomplete({
+					source: function(request, add) {
+						$this = $(this)
+						
+						// Call out to the Graph API for the friends list
+						$.ajax({
+							url: tokenUrl,
+							dataType: "jsonp",
+							success: function(results){
+								var maxResults = 10; //results.data.length
+								// Filter the results and return a label/value object array  
+								var formatted = [];
+								for(var i = 0; i< results.data.length; i++) {
+									if (results.data[i].name.toLowerCase().indexOf($('#name').val().toLowerCase()) >= 0)
+									formatted.push({
+										label: results.data[i].name,
+										value: results.data[i].id
+									})
+								}
+								add(formatted);
+							}
+						});
+					},
+					select: function(event, ui) {
+						console.log(ui.item.label + "-" + ui.item.value);
+						// Fill in the input fields
+						$('#name').val(ui.item.label);
+						$('#fbId').val(ui.item.value);
+						addNewRow(ui.item.value, ui.item.label);
+						$('#name').val("");
+						return false;
+					},
+					minLength: 2
+				});
+			}
+		});
+		//end of fb autocomplte friends
 			
 		
 		var totalAmount = 0;
@@ -190,7 +186,7 @@ window.fbAsyncInit = function () {
 	        cols += '<td><input type="button" id="ibtnDel"  value="Remove"></td>';
 	        newRow.append(cols);
 	        
-	        $("table.splitee-list").append(newRow);
+	        $("#myTable").append(newRow);
 	        //shareAmount = calculateShareAmount();
 	        if (totalAmount % counter == 0)
 	        	$('[name^=amount]').val(calculateShareAmount(totalAmount, counter));
@@ -200,7 +196,7 @@ window.fbAsyncInit = function () {
 	            //if (counter == 5) $('#addrow').attr('disabled', true).prop('value', "You've reached the limit");
 	    	}
 
-	    $("table.splitee-list").on("change", 'input[name^="amount"]', function (event) {
+	    $("#myTable").on("change", 'input[name^="amount"]', function (event) {
 	    	
 	    	var currentAmount = $(event.target).val();
 	    	var amountLeft = totalAmount - currentAmount;
@@ -217,7 +213,7 @@ window.fbAsyncInit = function () {
 	    
 	    
 
-	    $("table.splitee-list").on("click", "#ibtnDel", function (event) {
+	    $("#myTable").on("click", "#ibtnDel", function (event) {
 	        $(this).closest("tr").remove();
 	        //calculateGrandTotal();
 	        counter --;
@@ -255,57 +251,7 @@ window.fbAsyncInit = function () {
 	        });
 	        $("#grandtotal").text(grandTotal.toFixed(2));
 	    } */
-	    
-	   /* 
-	   $( "#friends" ).autocomplete({
-	    	minLength: 2,
-	        source: friends,
-	        select: function( event, ui ) {
-	        	 $( "#friends" ).val("");
-	        	addNewRow(ui.item.value,ui.item.label);
-	            log( ui.item ?
-	              "Selected: " + ui.item.label + " with id: " + ui.item.value :
-	              "Nothing selected, input was " + this.value );
-	             
-	              return false;
-	          }
-	      });*/
-	    
-	    
-	   /* function getFriends(){
-			FB.getLoginStatus(function(response) {
-				//alert("fuck1");
-				if (response.status === 'connected') {
-				FB.api('/me/friends?fields=id,name', function(response) {
-					
-						
-						if (response.data) {
-							//alert("fuck2");
-							//setFriends(response.data);
-							
-							var friends = response.data;
-							//console.log(friends);
-							// Build the markup
-							//buildMarkup();
-							var i, len, html = '';
-							for (i = 0, len = friends.length; i < 5; i += 1) {
-								html += friends[i].name + "\n";
-							}
-							//alert(html);
-							// Call the callback
-							//if (typeof callback === 'function') { callback(); }
-							return html;
-						} else {
-							//log('TDFriendSelector - buildFriendSelector - No friends returned');
-							return false;
-						}
-					
-			
-				}); }
-			});
-			
-		}*/
-	    
+	    	    
 	    
 	}); //end docmument ready
 };
@@ -326,8 +272,47 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div id='splitBillrow' class="pin-tab-upper rounded-corners">
-	I paid <input id='totalAmount'> For <input id='reason'> <button id='splitButton' class="pin-it box-shadow-3">Split it</button></div>
+<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">buku555</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="">Home</a></li>
+			<li class="active"><a href="SplitBill.jsp">Split Bill</a></li>
+			<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
+            <li><a href="history.html">History</a></li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    
+    
+    <div class="container">
+
+      <div class="landing">
+        <h1>buku 555 - lending made social</h1>
+        <p class="lead">Split a bill with friends</p>
+
+	<div class="action-form">
+
+	<div id='splitBillrow' class="pin-tab-upper rounded-corners">
+	<span class="font-14">I paid </span>
+	<input id='totalAmount'> 
+	<span class="font-14">For</span> 
+	<input class="w230" id='reason'> 
+	<button id='splitButton' class="btn split-bill">Split it</button>
+	</div>
+	
 	<div id='splitBill' style='display:none;'>
 	
 	<!-- <div class="ui-widget">
@@ -335,51 +320,12 @@ window.fbAsyncInit = function () {
 	  <input id="friends">
 	</div> -->
 		
-		
-		<div class="jumbotron">
-		<a href="#" id="btnSelect1" class="btn btn-primary btn-large">Select
-			your friends</a>
-		<hr>
-		<!-- <div id="results" class="lead">
-			<p>You will see result here</p>
-		</div> -->
-	</div>
-	
-		<!-- Markup for These Days Friend Selector -->
-	<div id="TDFriendSelector">
-		<div class="TDFriendSelector_dialog">
-			<a href="#" id="TDFriendSelector_buttonClose">x</a>
-			<div class="TDFriendSelector_form">
-				<div class="TDFriendSelector_header">
-					<p>Select your friends</p>
-				</div>
-				<div class="TDFriendSelector_content">
-					<p>Select your friends to split the bill</p>
-					<div
-						class="TDFriendSelector_searchContainer TDFriendSelector_clearfix">
-						<div class="TDFriendSelector_selectedCountContainer">
-							<span class="TDFriendSelector_selectedCount">0</span> friends selected
-						</div>
-						<input type="text" placeholder="Search friends"
-							id="TDFriendSelector_searchField" />
-					</div>
-					<div class="TDFriendSelector_friendsContainer"></div>
-				</div>
-				<div class="TDFriendSelector_footer TDFriendSelector_clearfix">
-					<a href="#" id="TDFriendSelector_pagePrev"
-						class="TDFriendSelector_disabled">Previous</a> <a href="#"
-						id="TDFriendSelector_pageNext">Next</a>
-					<div class="TDFriendSelector_pageNumberContainer">
-						Page <span id="TDFriendSelector_pageNumber">1</span> / <span
-							id="TDFriendSelector_pageNumberTotal">1</span>
-					</div>
-					<a href="#" id="TDFriendSelector_buttonOK">OK</a>
-				</div>
-			</div>
+		<div class="pin-tab-lower">
+		<div class="mb-20">
+		<input type="text" id="name" style="width: 200px;" placeholder="Friend's name"/>
 		</div>
-	</div>
 		
-		<table id="myTable" class="splitee-list">
+		<table id="myTable" class="table table-no-border">
 		    <thead>
 		        <tr>
 		            <td>Name</td>
@@ -399,10 +345,29 @@ window.fbAsyncInit = function () {
 		        </tr>
 		    </tbody>
 		</table>
-		
-		<br> <button id='pinitBtn'>Pin It!</button>
-		<br> <button id='test'>Test</button>
+		<table class="table table-no-border">
+		<tbody>
+			<tr>
+				<td>Attach receipts/photos</td>
+				<td><button id='pinitBtn' >Pin It!</button></td>
+			</tr>
+		</tbody>
+		</table>
+	
+	</div> <!-- pin-tab-lower -->
+	
+	</div> <!-- splitBill -->
+
 	</div>
+      
+
+	  </div> <!-- landing  -->
+
+    </div><!-- /.container -->
+	 <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="scripts/bootstrap.min.js"></script>
 	   
 </body>
 </html>
