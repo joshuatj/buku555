@@ -16,36 +16,45 @@
 <!-- Custom styles for this template -->
 <link href="css/bootstrap/custom.css" rel="stylesheet">
 
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
 <link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
+<script type="text/javascript">
+	console.log(document)
+</script>
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
 <script src="scripts/global.js" type="text/javascript"></script>
-<script src="scripts/bootstrap.min.js" type="text/javascript"></script>
 <title>Get Historic Multi Rate</title>
 
 <script type="text/javascript">
-	$(document)
+	jQuery(document)
 			.ready(
 					function() {
 
 						$("#datefrom").datepicker({
 							dateFormat : "yy-mm-dd",
-							maxDate : " +0D"
+							maxDate : " +0D",
+							onSelect: function(selected) {
+						          $("#dateto").datepicker("option","minDate", selected)
+						        }
 						});
 						$("#datefrom").datepicker("setDate", new Date());
 						$("#datefrom")
 								.datepicker("option", "showAnim", "slide");
 						$("#dateto").datepicker({
 							dateFormat : "yy-mm-dd",
-							maxDate : " +0D"
+							maxDate : " +0D",
+							onSelect: function(selected) {
+							          $("#datefrom").datepicker("option","maxDate", selected)
+							        }
 						});
+						
+					        
+						
 						$("#dateto").datepicker("setDate", new Date());
 						$("#dateto").datepicker("option", "showAnim", "slide");
 
 						$("#dialog").hide();
-						$(document).tooltip();
 
 						$("input[type=send], a, button")
 						$("#send").button()
@@ -194,14 +203,16 @@
 					<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
 					<li><a href="LoanItemServlet?action=list">Record Item</a></li>
 					<li><a href="history.html">History</a></li>
-										
-					<li class="dropdown active">
-                	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Convert Currency<b class="caret"></b></a>
-               		<ul class="dropdown-menu">
-                    <li><a href="getRate.jsp">Todays SGD Rate</a></li>
-                    <li><a href="getHistoricRate.jsp">Historic Rates</a></li>
-                    <li class="active"><a href="getHistoricOtherCurrency.jsp">Multiple Historic Currency</a></li>
 
+					<li class="dropdown active"><a href="#" data-toggle="dropdown"
+						class="dropdown-toggle">Convert Currency<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="getRate.jsp">Todays SGD Rate</a></li>
+							<li><a href="getHistoricRate.jsp">Historic Rates</a></li>
+							<li class="active"><a href="getHistoricOtherCurrency.jsp">Multiple
+									Historic Currency</a></li>
+
+						</ul></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -244,9 +255,15 @@
 								title="The currency used for the inital transaction">
 									<%
 										for (String s : currencies) {
+											if (!s.equals("SGD")) {
 									%>
 									<option value='<%=s%>'><%=s%></option>
 									<%
+										} else {
+									%>
+									<option value='<%=s%>' selected='selected'><%=s%></option>
+									<%
+										}
 										}
 									%>
 							</select></td>
@@ -296,7 +313,7 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="scripts/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>
 

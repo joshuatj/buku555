@@ -23,7 +23,7 @@
 <title>Get Today's Rate</title>
 
 <script type="text/javascript">
-	$(document)
+	jQuery(document)
 			.ready(
 					function() {
 
@@ -203,8 +203,6 @@
 					<p>The form has not been completed, items are missing. Please
 						correct the fields shown in red.</p>
 				</div>
-
-
 
 			</div>
 		</div>

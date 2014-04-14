@@ -15,6 +15,7 @@
 <!-- Custom styles for this template -->
 <link href="css/bootstrap/custom.css" rel="stylesheet">
 
+
 <link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
@@ -22,7 +23,7 @@
 <title>Get Historic Rate</title>
 
 <script type="text/javascript">
-	$(document)
+	jQuery(document)
 			.ready(
 
 					function() {
@@ -35,7 +36,6 @@
 						$("#date").datepicker("setDate", new Date());
 
 						$("#dialog").hide();
-						$(document).tooltip();
 
 						$("input[type=send], a, button")
 						$("#send").button()
