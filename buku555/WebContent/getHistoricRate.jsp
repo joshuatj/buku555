@@ -173,6 +173,7 @@
 
 		<div class="record-payment">
 			<h1>Get Historic Rate</h1>
+			<br />
 			<%
 				CurrencyDBAO dbo;
 				ArrayList<String> currencies;
