@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="database.CurrencyDBAO"%>
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -21,6 +23,20 @@
 <title>Money Payment</title>
 </head>
 <body>
+<%
+		CurrencyDBAO dbo;
+		ArrayList<String> currencies;
+		try {
+			dbo = new CurrencyDBAO();
+			currencies = dbo.getDBKnownCurrencies();
+		} catch (Exception e) {
+	%>
+	There was a problem performing this task, check database connectivity
+	<%
+		return;
+		}
+	%>
+	
 <div id="fb-root"></div>
 <script type="text/javascript">
 window.fbAsyncInit = function() {
@@ -89,8 +105,7 @@ window.fbAsyncInit = function() {
         } else if ('${select}' == '4'){
     		$('#selectWhoPaid').val('4');
     	}
-    	
-        
+            
     	$( "#submit" ).click(function( event ) {
     		$.ajax({ 
     	   		type: "POST",
@@ -167,12 +182,28 @@ window.fbAsyncInit = function() {
 		<option value="3">I owe</option>
 		<option value="4">Owes me</option>
 	</select>
+	
+
+	
 	<select name="type" class="dropdown-toggle">
-		<option value="MYR">MYR</option>
-		<option value="S$" selected="selected">S$</option>
-		<option value="USD">USD</option>
-		<option value="GBP">GBP</option>
+	<%
+		for (String s : currencies) {
+		if(!s.equals("SGD")){
+	%>
+		<option value='<%=s%>'><%=s%></option>
+	<%
+		}
+		else
+		{
+			%>
+			<option value='<%=s%>' selected='selected'><%=s%></option>
+			<%
+		}
+		}
+	%>
 	</select>
+	
+	
 	<input type="text" id="amount" value="${loanItem.totalLoanAmount}" placeholder="How much?"/>
 	<input placeholder="For what? (e.g. nasi lemak)">
 	<button id="cancel" class="btn split-bill">Cancel</button>
