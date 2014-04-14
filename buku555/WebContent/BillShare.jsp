@@ -34,15 +34,24 @@
           <a class="navbar-brand" href="#">buku555</a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="">Home</a></li>
-			<li><a href="SplitBill.jsp">Split Bill</a></li>
-			<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
-			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
-            <li><a href="history.html">History</a></li>
-            
-          </ul>
-        </div><!--/.nav-collapse -->
+				<ul class="nav navbar-nav">
+					<li><a href="">Home</a></li>
+					<li><a href="SplitBill.jsp">Split Bill</a></li>
+					<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+					<li><a href="LoanItemServlet?action=list">Record Item</a></li>
+					<li><a href="history.html">History</a></li>
+					
+					<li class="dropdown">
+                	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Convert Currency<b class="caret"></b></a>
+               		<ul class="dropdown-menu">
+                    <li><a href="getRate.jsp">Todays SGD Rate</a></li>
+                    <li><a href="getHistoricRate.jsp">Historic Rates</a></li>
+                    <li><a href="getHistoricOtherCurrency.jsp">Multiple Historic Currency</a></li>
+                    
+                    </ul>
+
+				</ul>
+			</div><!--/.nav-collapse -->
       </div>
     </div>
 

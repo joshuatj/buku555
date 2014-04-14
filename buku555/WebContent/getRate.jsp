@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<meta charset="utf-8">
+<meta charset="utf-8" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
@@ -61,7 +61,13 @@
 															success : function(
 																	data) {
 																$("#outp")
-																		.html("At the current rate $"+amount+"SGD results in "+data+" in "+currency);
+																		.html(
+																				"At the current rate $"
+																						+ amount
+																						+ "SGD results in "
+																						+ data
+																						+ " in "
+																						+ currency);
 															},
 															beforeSend : function() {
 																$("#outp")
@@ -121,78 +127,88 @@
 		}
 	%>
 
-<!-- Start navigation -->
-<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">buku555</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="">Home</a></li>
-			<li><a href="SplitBill.jsp">Split Bill</a></li>
-			<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
-			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
-            <li><a href="history.html">History</a></li>
-            <li class="active"><a href="getRate.jsp">Convert Currency</a></li>
-            
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
- <!-- end navigation  -->
- 
- <div class="container">
- <div class="landing">
- 
- <div class="record-payment">	
-	<h1>Get Todays Rate</h1>
-	<br />
-	<form action="getDataRate" id="conversion" method="GET">
-		<table class="table table-striped table-bordered">
-			<tr>
-				<td>Amount:</td>
-				<td><input type="text" id="amount" name="amount" value="1.00"
-					title="This is the amount to convert in Singapore Dollars"></td>
-			</tr>
-			<tr>
-				<td>To:</td>
-				<td><select id='currency' name='currency'
-					title="This is the currency we are converting to">
-						<%
-							for (String s : currencies) {
-						%>
-						<option value='<%=s%>'><%=s%></option>
-						<%
-							}
-						%>
-				</select></td>
-			</tr>
-		</table>
-	</form>
-	<br>
-	<button id="send">Submit</button>
-	<br>
-	<br>
-	<div id="outp">Please select a currency and value above to find
-		out the the exchange rate from SGD.</div>
+	<!-- Start navigation -->
+	<div class="navbar bg-green navbar-inverse navbar-fixed-top"
+		role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">buku555</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="">Home</a></li>
+					<li><a href="SplitBill.jsp">Split Bill</a></li>
+					<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+					<li><a href="LoanItemServlet?action=list">Record Item</a></li>
+					<li><a href="history.html">History</a></li>
+					
+					<li class="dropdown active">
+                	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Convert Currency<b class="caret"></b></a>
+               		<ul class="dropdown-menu">
+                    <li class="active"><a href="getRate.jsp">Todays SGD Rate</a></li>
+                    <li><a href="getHistoricRate.jsp">Historic Rates</a></li>
+                    <li><a href="getHistoricOtherCurrency.jsp">Multiple Historic Currency</a></li>
+                    
+                    </ul>
 
-	<div id="dialog" title="Form Information">
-		<p>The form has not been completed, items are missing. Please
-			correct the fields shown in red.</p>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
 	</div>
-	
+	<!-- end navigation  -->
+
+	<div class="container">
+		<div class="landing">
+
+			<div class="record-payment">
+				<h1>Get Todays Rate</h1>
+				<br />
+				<form action="getDataRate" id="conversion" method="GET">
+					<table class="table table-striped table-bordered">
+						<tr>
+							<td>Amount:</td>
+							<td><input type="text" id="amount" name="amount"
+								value="1.00"
+								title="This is the amount to convert in Singapore Dollars"></td>
+						</tr>
+						<tr>
+							<td>To:</td>
+							<td><select id='currency' name='currency'
+								title="This is the currency we are converting to">
+									<%
+										for (String s : currencies) {
+									%>
+									<option value='<%=s%>'><%=s%></option>
+									<%
+										}
+									%>
+							</select></td>
+						</tr>
+					</table>
+				</form>
+				<br>
+				<button id="send">Submit</button>
+				<br> <br>
+				<div id="outp">Please select a currency and value above to
+					find out the the exchange rate from SGD.</div>
+
+				<div id="dialog" title="Form Information">
+					<p>The form has not been completed, items are missing. Please
+						correct the fields shown in red.</p>
+				</div>
 
 
-</div>
-</div>
-</div>
-<script src="scripts/bootstrap.min.js"></script>
+
+			</div>
+		</div>
+	</div>
+	<script src="scripts/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>
