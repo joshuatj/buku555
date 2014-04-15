@@ -211,32 +211,34 @@
     <form method="POST" action='LoanItemServlet' name="frmAddLoanItem">
         <input type="hidden" readonly="readonly" name="id"
             value="<c:out value="${loanItem.id}" />" /> <br /> 
-        Description : <input
+        
+        <table class="table table-striped table-bordered">
+        <tr>
+        <td>Description</td><td> <input
             type="text" name="description"
-            value="<c:out value="${loanItem.description}" />" /> <br /> 
-        Date : <input
+            value="<c:out value="${loanItem.description}" />" /> </td></tr><tr>
+        <td>Date</td><td><input
             type="text" name="date"
-            value="<fmt:formatDate pattern="MM/dd/yyyy" value="${loanItem.date}" />" /> <br /> 
-        Lend <input type="radio" name="loanType" value="1"> &nbsp;
-        Borrow <input type="radio" name="loanType" value="2"> <br /> 
-        Select Friend : 
-      <input type="text" id="name" name="name" style="width: 200px;" />
+            value="<fmt:formatDate pattern="MM/dd/yyyy" value="${loanItem.date}" />" /></td></tr>
+        <tr>
+        <td>Loan Type</td><td>Lend <input type="radio" name="loanType" value="1"> 
+        Borrow <input type="radio" name="loanType" value="2"></td></tr>
+        <tr><td>Select Friend</td><td><input type="text" id="name" name="name" style="width: 200px;" /></td></tr>
       <input type="hidden" id="loanUserId" name="loanUserId"> 
         <%-- <input
             type="text" name="loanUser" id="loanUser"
             value="<c:out value="${loanItem.userByLoanUserId.fbUserId}" />" />  --%>
-            <br />
-        Item Type: <Select name="itemType" size="1" id="itemType">  
+        <tr><td>Item Type</td><td><Select name="itemType" size="1" id="itemType">  
 				      <c:forEach items="${itemTypeDAO.findAll()}" var="item">  
 				            <option value="${item.id}"><c:out value="${item.itemTypeName}"/></option>  
 				      </c:forEach>  
-      				</select>   <br /> 
-      	Loan Status : <Select name="loanStatus" size="1" id="loanStatus"> 
+      				</select></td></tr>
+      	<tr><td>Loan Status</td><td><Select name="loanStatus" size="1" id="loanStatus"> 
       						<option value="LOAN">LOAN</option>
       						<option value="RETURNED">RETURNED</option>  
       						<option value="DAMAGED">DAMAGED</option>  
       						<option value="LOST">LOST</option>    
-      				 </select> <br/>
+      				 </select></td></tr></table>
         <input type="submit" value="Submit" />
     </form>
  </div>
