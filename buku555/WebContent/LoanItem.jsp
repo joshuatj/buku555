@@ -128,7 +128,7 @@
       
       $(document).ready(function() {
 	    	$(function() {
-	            $('input[name=date]').datepicker();
+	            $('input[name=date]').datepicker({maxDate : " +0D"});
 	        });
 	        if ("${loanItem.itemType.id}" != "")
 	        	$("#itemType").val("${loanItem.itemType.id}");
