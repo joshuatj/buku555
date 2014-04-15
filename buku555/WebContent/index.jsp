@@ -48,7 +48,7 @@
 		<div class="landing">
 
 			<div class="record-payment">
-				<h1>Welcome to Baku555: Social Lending</h1>
+				<h1>Welcome to buku 555 - lending made social</h1>
 				<br />
 				Please create or access your account by signing in with your Facebook account.
 				<br /><br />

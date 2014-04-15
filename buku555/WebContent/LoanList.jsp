@@ -102,8 +102,6 @@
     </tbody>
 </table>
 </div>
-<p><a href="LoanItemServlet?action=insert">Add Loan Item</a></p>
-<p><a href="${pageContext.request.contextPath}/SplitBill.jsp">Add new Bill</a></p>
 
 </div>
 </div>
