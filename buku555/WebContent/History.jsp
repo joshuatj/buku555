@@ -19,7 +19,7 @@
 <link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
-<title>Bill Management</title>
+<title>History</title>
 </head>
 <body>
 <div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
@@ -39,7 +39,7 @@
 			<li><a href="SplitBill.jsp">Split Bill</a></li>
 			<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
 			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
-            <li><a href="history.html">History</a></li>
+            <li><a href="HistoryServlet">History</a></li>
             
           </ul>
         </div><!--/.nav-collapse -->
@@ -49,35 +49,59 @@
 <div class="container">
 <div class="landing">
 <h1>buku 555 - lending made social</h1>
-<p class="lead">Bill History</p>
+<p class="lead">History</p>
 <div class="recent-history-table">
 <table class="table table-striped table-bordered">
 	<thead>
      <tr>
          <!-- <th>Name</th> -->
-         <th>Total Amount</th>
-         <th>Date</th>
+         <th>Action</th>
+         <th>Amount</th>
          <th>Reason</th>
          <th>Photo</th>
-         <th colspan=2>Action</th>
+         <th>On</th>
      </tr>
  	</thead>
  	<tbody>
-          <c:forEach items="${billItems}" var="item">
+          <c:forEach items="${historyItems}" var="item">
                 <tr>
-                    <%-- <td><c:out value="${item.user.name}" /></td> --%>
-                    <td><c:out value="${item.totalAmount}" /></td>
-                    <td><c:out value="${item.date}" /></td>
+                    <td>
+                    	<%-- <c:if test="${item.userByFromUserId == sessionScope.loginUser.id}">
+                    		<c:out value="I paid ${item.userByToUserId.name}"/>
+                    	</c:if> --%>
+                    	<c:choose>
+						   <c:when test="${item.userByFromUserId.id == sessionScope.loginUser.id}">
+							   <c:if test="${item.transactionType == 1}">
+							   		<c:out value="I paid ${item.userByToUserId.name}"/>
+							   </c:if>
+							   <c:if test="${item.transactionType == 2}">
+							   		<c:out value="I owe ${item.userByToUserId.name}"/>
+							   </c:if>		
+						   </c:when>
+						   <c:when test="${item.userByToUserId.id == sessionScope.loginUser.id}">
+							   <c:if test="${item.transactionType == 1}">
+							   		<c:out value="${item.userByFromUserId.name} paid me"/>
+							   </c:if>
+							   <c:if test="${item.transactionType == 2}">
+							   		<c:out value="${item.userByFromUserId.name} owe me"/>
+							   </c:if>	
+						   		
+						   </c:when>
+						   <c:otherwise></c:otherwise>
+						</c:choose>
+                    </td>
+                    <td><c:out value="${item.paidAmount}" /></td>
                     <td><c:out value="${item.reason}" /></td>
                     <td>
                     	<c:if test="${item.photo != null}">
-                    		<a target="_blank" href="UploadServlet?type=bill&getfile=<c:out value="${item.photo}"/> ">
-                    			<img src="UploadServlet?type=bill&getthumb=<c:out value="${item.photo}"/> ">
+                    		<a target="_blank" href="UploadServlet?type=transaction&getfile=<c:out value="${item.photo}"/> ">
+                    			<img src="UploadServlet?type=transaction&getthumb=<c:out value="${item.photo}"/> ">
                     		</a>
                     	</c:if>
                     </td>
-                    <td><a href="BillServlet?action=edit&id=<c:out value="${item.id}"/>">Edit</a></td>
-                    <%-- <td><a href="BillServlet?action=viewShare&id=<c:out value="${item.id}"/>">View Share</a></td> --%>
+                    <td><c:out value="${item.transactionDate}" /></td>
+                    <%-- <td><c:out value="${item.currencyId}" /></td> --%>
+                    
                 </tr>
             </c:forEach>
     </tbody>

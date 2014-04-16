@@ -44,7 +44,7 @@ public class CurrencyDBAO {
     public static String url = "jdbc:mysql://localhost:3306/buku555";
     public static String dbdriver = "com.mysql.jdbc.Driver";
     public static String username = "root";
-    public static String password = "toor";
+    public static String password = "admin";
     
     public CurrencyDBAO() throws Exception {
         try {

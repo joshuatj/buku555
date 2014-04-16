@@ -1,5 +1,6 @@
 package buku.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -104,6 +105,7 @@ public class LoanMoneyServlet extends HttpServlet {
 		int selectWhoPaid = Integer.parseInt(request.getParameter("selectWhoPaid"));
 		String name = request.getParameter("name");
 		
+		
 		User loginUser = (User) request.getSession().getAttribute("loginUser");
 		User fbUser = userDAO.findByFbId(fbId);
 		if (fbUser == null){
@@ -122,15 +124,28 @@ public class LoanMoneyServlet extends HttpServlet {
 			toWhoUser = loginUser;
 		}
 		
-		// if paid, record the transaction
+		//record the transaction history
+		Transaction t = new Transaction();
+		t.setPaidAmount(amount);
+		t.setTransactionDate(new Date(request.getParameter("date")));
+		t.setReason(request.getParameter("reason"));
 		if (selectWhoPaid == 1 || selectWhoPaid == 2){
-			Transaction t = new Transaction();
-			t.setPaidAmount(amount);
+			t.setTransactionType(1); //paid transaction
 			t.setUserByFromUserId(fromWhoUser);
 			t.setUserByToUserId(toWhoUser);
-			t.setTransactionDate(new Date());
-			
-			transactionDAO.persist(t);
+		} else if (selectWhoPaid == 3 || selectWhoPaid == 4){
+			t.setTransactionType(2); //owe transaction
+			t.setUserByFromUserId(toWhoUser);
+			t.setUserByToUserId(fromWhoUser);
+		}
+		int transId = transactionDAO.persist(t);
+		
+		String path = request.getServletContext().getRealPath("/")+"imgs/transaction/";
+		String fileName = "transaction_" + transId + ".png";
+		File file = new File(path + fileName);
+		if (file.exists()){
+			t.setPhoto(fileName);
+			transactionDAO.update(t);
 		}
 		
 		

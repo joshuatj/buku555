@@ -1,5 +1,6 @@
 package buku.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -65,9 +66,17 @@ public class SplitBillServlet extends HttpServlet {
 		bill.setUser(logInUser);
 		bill.setTotalAmount(Double.parseDouble(request.getParameter("totalAmount")));
 		bill.setReason(request.getParameter("reason"));
-		bill.setDate(new Date());
+		bill.setDate(new Date(request.getParameter("date")));
 		//bill.setPhoto("photo");
 		int billId = billDAO.persist(bill);
+		String path = request.getServletContext().getRealPath("/")+"imgs/bill/";
+		String fileName = "bill_" + billId + ".png";
+		File file = new File(path + fileName);
+		if (file.exists()){
+			bill.setPhoto(fileName);
+			billDAO.update(bill);
+		}
+			
 		
 		//Create new splitee
 		String[] fbIds = request.getParameterValues("fbIds[]");
@@ -113,7 +122,7 @@ public class SplitBillServlet extends HttpServlet {
 					loanMoney.setTotalLoanAmount(amountToPay);
 				}
 			}
-			loanMoneyDAO.persist(loanMoney);
+			loanMoneyDAO.update(loanMoney);
 		}
 		
 		PrintWriter out = response.getWriter();

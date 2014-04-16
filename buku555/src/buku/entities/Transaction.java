@@ -15,6 +15,9 @@ public class Transaction implements java.io.Serializable {
 	private User userByFromUserId;
 	private Double paidAmount;
 	private Date transactionDate;
+	private String reason;
+	private String photo;
+	private Integer transactionType; 
 
 	public Transaction() {
 	}
@@ -75,5 +78,33 @@ public class Transaction implements java.io.Serializable {
 	public void setTransactionDate(Date transactionDate) {
 		this.transactionDate = transactionDate;
 	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public Integer getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(Integer transactionType) {
+		this.transactionType = transactionType;
+	}
+	
+	
+	
+	
 
 }

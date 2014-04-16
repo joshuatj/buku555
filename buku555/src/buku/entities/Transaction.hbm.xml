@@ -11,17 +11,26 @@
         <many-to-one name="currency" class="buku.entities.Currency" fetch="select">
             <column name="currency_id" />
         </many-to-one>
-        <many-to-one name="userByToUserId" class="buku.entities.User" fetch="select">
+        <many-to-one name="userByToUserId" class="buku.entities.User" fetch="select" lazy="false">
             <column name="to_user_id" />
         </many-to-one>
-        <many-to-one name="userByFromUserId" class="buku.entities.User" fetch="select">
+        <many-to-one name="userByFromUserId" class="buku.entities.User" fetch="select" lazy="false">
             <column name="from_user_id" />
         </many-to-one>
         <property name="paidAmount" type="java.lang.Double">
             <column name="paid_amount" precision="22" scale="0" />
         </property>
-        <property name="transactionDate" type="timestamp">
-            <column name="transaction_date" length="19" />
+        <property name="transactionDate" type="date">
+            <column name="transaction_date" length="10" />
+        </property>
+        <property name="reason" type="string">
+            <column name="reason" length="500" />
+        </property>
+        <property name="photo" type="string">
+            <column name="photo" length="200" />
+        </property>
+        <property name="transactionType" type="java.lang.Integer">
+            <column name="transaction_type" />
         </property>
     </class>
 </hibernate-mapping>

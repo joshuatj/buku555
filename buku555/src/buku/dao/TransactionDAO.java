@@ -22,7 +22,7 @@ public class TransactionDAO extends AbstractDAO {
 
 	private static final Log log = LogFactory.getLog(TransactionDAO.class);
 
-	public void persist(Transaction transientInstance) {
+	public int persist(Transaction transientInstance) {
 		log.debug("persisting Transaction instance");
 		Session s = getCurrentSession();
 		try {
@@ -30,6 +30,7 @@ public class TransactionDAO extends AbstractDAO {
 			s.persist(transientInstance);
 			tx.commit();
 			log.debug("persist successful");
+			return transientInstance.getId();
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
 			throw re;
@@ -102,6 +103,34 @@ public class TransactionDAO extends AbstractDAO {
 			throw re;
 		} finally{
 			closeSession(s);
+		}
+	}
+	
+	public List<Transaction> findHistory(Integer userId){
+		Session s = getCurrentSession();
+		try {
+			org.hibernate.Transaction tx = s.beginTransaction();
+			List<Transaction> results = s.createQuery("from Transaction t where t.userByFromUserId=" + userId + " or t.userByToUserId=" + userId).list();
+			tx.commit();
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		} finally{
+			closeSession(s);
+		}
+	}
+	
+	public Integer getLatestInsertedId(){
+		Session s = getCurrentSession();
+		try {
+			org.hibernate.Transaction tx = s.beginTransaction();
+			Integer maxID = (Integer) s.createQuery("select max(id) from Transaction").uniqueResult();
+			tx.commit();
+			return maxID;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
 		}
 	}
 }

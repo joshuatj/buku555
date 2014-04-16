@@ -2,8 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+<c:if test="${sessionScope.loginUser == null}">
+    <c:redirect url="/Login.jsp" />		
+</c:if>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <meta charset="utf-8" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +75,7 @@
 			FB.Event.subscribe('auth.authResponseChange', function(response) {
 				// Here we specify what we do with the response anytime this event occurs. 
 				if (response.status == 'connected') {
-					SendUserData(response);   					
+					//SendUserData(response);   					
 				} else if (response.status == 'not_authorized') {
 					alert("not_auth");
 					FB.login();

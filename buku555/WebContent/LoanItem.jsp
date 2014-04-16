@@ -128,7 +128,15 @@
       
       $(document).ready(function() {
 	    	$(function() {
-	            $('input[name=date]').datepicker({maxDate : " +0D"});
+	    		$(function() {
+	                $('input[name=date]').datepicker({
+	                        //dateFormat: "dd-mm-yy",
+	                        maxDate: "0",
+	                        showOtherMonths: true,
+	                        selectOtherMonths: true
+	                        		}
+	                );
+	            });
 	        });
 	        if ("${loanItem.itemType.id}" != "")
 	        	$("#itemType").val("${loanItem.itemType.id}");
@@ -198,8 +206,15 @@
           <a class="navbar-brand" href="#">buku555</a>
         </div>
         <div class="collapse navbar-collapse">
-				<jsp:include page="menu.html" flush="true" />
-			</div><!--/.nav-collapse -->
+          <ul class="nav navbar-nav">
+            <li><a href="">Home</a></li>
+			<li><a href="SplitBill.jsp">Split Bill</a></li>
+			<li class="active"><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
+            <li><a href="history.html">History</a></li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
  <!-- end navigation  -->
@@ -211,34 +226,32 @@
     <form method="POST" action='LoanItemServlet' name="frmAddLoanItem">
         <input type="hidden" readonly="readonly" name="id"
             value="<c:out value="${loanItem.id}" />" /> <br /> 
-        
-        <table class="table table-striped table-bordered">
-        <tr>
-        <td>Description</td><td> <input
+        Description : <input
             type="text" name="description"
-            value="<c:out value="${loanItem.description}" />" /> </td></tr><tr>
-        <td>Date</td><td><input
+            value="<c:out value="${loanItem.description}" />" /> <br /> 
+        Date : <input
             type="text" name="date"
-            value="<fmt:formatDate pattern="MM/dd/yyyy" value="${loanItem.date}" />" /></td></tr>
-        <tr>
-        <td>Loan Type</td><td>Lend <input type="radio" name="loanType" value="1"> 
-        Borrow <input type="radio" name="loanType" value="2"></td></tr>
-        <tr><td>Select Friend</td><td><input type="text" id="name" name="name" style="width: 200px;" /></td></tr>
+            value="<fmt:formatDate pattern="MM/dd/yyyy" value="${loanItem.date}" />" /> <br /> 
+        Lend <input type="radio" name="loanType" value="1"> &nbsp;
+        Borrow <input type="radio" name="loanType" value="2"> <br /> 
+        Select Friend : 
+      <input type="text" id="name" name="name" style="width: 200px;" />
       <input type="hidden" id="loanUserId" name="loanUserId"> 
         <%-- <input
             type="text" name="loanUser" id="loanUser"
             value="<c:out value="${loanItem.userByLoanUserId.fbUserId}" />" />  --%>
-        <tr><td>Item Type</td><td><Select name="itemType" size="1" id="itemType">  
+            <br />
+        Item Type: <Select name="itemType" size="1" id="itemType">  
 				      <c:forEach items="${itemTypeDAO.findAll()}" var="item">  
 				            <option value="${item.id}"><c:out value="${item.itemTypeName}"/></option>  
 				      </c:forEach>  
-      				</select></td></tr>
-      	<tr><td>Loan Status</td><td><Select name="loanStatus" size="1" id="loanStatus"> 
+      				</select>   <br /> 
+      	Loan Status : <Select name="loanStatus" size="1" id="loanStatus"> 
       						<option value="LOAN">LOAN</option>
       						<option value="RETURNED">RETURNED</option>  
       						<option value="DAMAGED">DAMAGED</option>  
       						<option value="LOST">LOST</option>    
-      				 </select></td></tr></table>
+      				 </select> <br/>
         <input type="submit" value="Submit" />
     </form>
  </div>

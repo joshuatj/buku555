@@ -1,5 +1,3 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="database.CurrencyDBAO"%>
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,7 +13,7 @@
 <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="css/bootstrap/custom.css" rel="stylesheet">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.fileupload.css">
 <link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
@@ -23,20 +21,6 @@
 <title>Money Payment</title>
 </head>
 <body>
-<%
-		CurrencyDBAO dbo;
-		ArrayList<String> currencies;
-		try {
-			dbo = new CurrencyDBAO();
-			currencies = dbo.getDBKnownCurrencies();
-		} catch (Exception e) {
-	%>
-	There was a problem performing this task, check database connectivity
-	<%
-		return;
-		}
-	%>
-	
 <div id="fb-root"></div>
 <script type="text/javascript">
 window.fbAsyncInit = function() {
@@ -105,7 +89,8 @@ window.fbAsyncInit = function() {
         } else if ('${select}' == '4'){
     		$('#selectWhoPaid').val('4');
     	}
-            
+    	
+        
     	$( "#submit" ).click(function( event ) {
     		$.ajax({ 
     	   		type: "POST",
@@ -113,6 +98,8 @@ window.fbAsyncInit = function() {
     	   		data: {
     	   			amount : $("#amount").val(),
     	   			selectWhoPaid : $("#selectWhoPaid").val(),
+    	   			reason : $("#reason").val(),
+	    			date: $("#date").val(),
     	   			name : $('#name').val(),
     	   			fbId: $('#fbId').val()
     	   			},
@@ -120,6 +107,36 @@ window.fbAsyncInit = function() {
     	   			alert(data);
     	   		}
     	   		});
+        });
+    	
+    	//upload files function
+	    $('#fileupload').fileupload({
+	        url: 'UploadServlet?type=transaction',
+	        dataType: 'json',
+	        maxFileSize : 5000000,
+	        //formData: {id: 'id'},
+	        done: function (e, data) {
+	        	//console.log(data.result);
+	            $.each(data.result, function (index, file) {
+	            	var img = $('<img />', {
+	            	    src: file.thumbnail_url
+	            	});
+	            	
+	            	$('#files').html(img);
+	            });
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	    //end upload file
+	    
+	    $(function() {
+            $('input[name=date]').datepicker({
+                    //dateFormat: "dd-mm-yy",
+                    maxDate: "0",
+                    showOtherMonths: true,
+                    selectOtherMonths: true
+                    		}
+            );
         });
     	
     });
@@ -146,8 +163,15 @@ window.fbAsyncInit = function() {
           <a class="navbar-brand" href="#">buku555</a>
         </div>
         <div class="collapse navbar-collapse">
-				<jsp:include page="menu.html" flush="true" />
-			</div><!--/.nav-collapse -->
+          <ul class="nav navbar-nav">
+            <li><a href="">Home</a></li>
+			<li><a href="SplitBill.jsp">Split Bill</a></li>
+			<li class="active"><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
+			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
+            <li><a href="HistoryServlet">History</a></li>
+            
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
  <!-- end navigation  -->
@@ -166,30 +190,14 @@ window.fbAsyncInit = function() {
 		<option value="3">I owe</option>
 		<option value="4">Owes me</option>
 	</select>
-	
-
-	
 	<select name="type" class="dropdown-toggle">
-	<%
-		for (String s : currencies) {
-		if(!s.equals("SGD")){
-	%>
-		<option value='<%=s%>'><%=s%></option>
-	<%
-		}
-		else
-		{
-			%>
-			<option value='<%=s%>' selected='selected'><%=s%></option>
-			<%
-		}
-		}
-	%>
+		<option value="MYR">MYR</option>
+		<option value="S$" selected="selected">S$</option>
+		<option value="USD">USD</option>
+		<option value="GBP">GBP</option>
 	</select>
-	
-	
 	<input type="text" id="amount" value="${loanItem.totalLoanAmount}" placeholder="How much?"/>
-	<input placeholder="For what? (e.g. nasi lemak)">
+	<input id="reason" placeholder="For what? (e.g. nasi lemak)">
 	<button id="cancel" class="btn split-bill">Cancel</button>
 </div>
 <div class="pin-tab-lower">
@@ -210,7 +218,26 @@ window.fbAsyncInit = function() {
 			<td>Joshua Ng (me) paid</td>
 		</tr> -->
 		<tr>
-			<td>Attach receipts/photos</td>
+			<td>
+				On Date 
+			</td>
+			<td>
+				<input id="date" type="text" name="date" />
+			</td>
+			
+		</tr>
+		<tr>
+			<td>
+				<span class="btn btn-success fileinput-button">
+			        <span>Attach receipts, photos...</span>
+			        <!-- The file input field used as target for the file upload widget -->
+			        <input id="fileupload" type="file" name="files[]" multiple>
+			    </span>
+				    <br><br>
+				    <!-- The container for the uploaded files -->
+				    <div id="files" class="files"></div>
+			
+			</td>
 			<td><button id="submit" class="btn pin-it">PIN IT!</button></td>			
 		</tr>
 	
@@ -223,6 +250,10 @@ window.fbAsyncInit = function() {
 </div>
 </div>
 </div>
+<script src="scripts/jsUpload/vendor/jquery.ui.widget.js"></script>
+<script src="scripts/jsUpload/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="scripts/jsUpload/jquery.fileupload.js"></script>
 <script src="scripts/bootstrap.min.js"></script>
 </body>
 </html>

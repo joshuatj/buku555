@@ -1,6 +1,7 @@
 package buku.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,8 +69,10 @@ public class LoginServlet extends HttpServlet {
 		//preserve login user information
 		HttpSession sess = request.getSession(true);
 		sess.setAttribute("loginUser", u);
+		PrintWriter out =  response.getWriter();
+		out.println("success");
 		
-		response.sendRedirect("SplitBill.jsp");
+		//response.sendRedirect("SplitBill.jsp");
 		
 	}
 
