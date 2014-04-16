@@ -3,6 +3,7 @@
       <%@page import="java.sql.*"%>
       <%@ page import="javax.servlet.http.HttpServletRequest"%>
       <%@ page import="javax.servlet.http.HttpSession"%>
+      <%@ page import="buku.entities.User"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,9 +24,15 @@
 <%
 try{
 String chk;
-HttpSession sess = request.getSession(true);
+
+//HttpSession sess = request.getSession(true);
 //String id = (String)sess.getAttribute("id");
-String id="1";
+//String id="1";
+
+HttpSession sess = request.getSession();
+User logInUser = (User) sess.getAttribute("loginUser");
+String id=logInUser.getId().toString();
+
 Class.forName("com.mysql.jdbc.Driver");
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/buku555","root","toor");
 Statement st=con.createStatement();
