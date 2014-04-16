@@ -9,6 +9,10 @@ ALTER TABLE `buku555`.`user` ADD COLUMN `receive_notimail` BIT NULL DEFAULT 1  A
 
 ALTER TABLE `buku555`.`user` ADD COLUMN `name` varchar(50) NULL AFTER `password` ;
 
+
+
+-- new changes from version 4 
+
 -- change type of transaction_date to Date
 ALTER TABLE `buku555`.`transaction` CHANGE COLUMN `transaction_date` `transaction_date` DATE NULL DEFAULT NULL;
 
