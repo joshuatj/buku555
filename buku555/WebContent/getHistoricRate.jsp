@@ -69,7 +69,8 @@
 																	+ "&date="
 																	+ date
 																	+ "&currency="
-																	+ currency,
+																	+ currency
+																	+ "&direction=0",
 															success : function(
 																	data) {
 																$("#outp")

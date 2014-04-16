@@ -2,6 +2,7 @@ package WebInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
+
 
 
 
@@ -74,11 +77,24 @@ public class getDataRate extends HttpServlet {
 			SimpleDateFormat datefmt = new SimpleDateFormat ("yyyy-MM-dd");
 			String amount = request.getParameter("amount");
 			String currency = request.getParameter("currency");
+			String toSGD = request.getParameter("direction");
 			
 			System.out.println("Current Date: " + datefmt.format(current)+"<br>");
 				      
 			cd = dbo.checkCurreny(currency, datefmt.format(current));
-			Double result = (Double.parseDouble(cd.get(0).getValue())*Double.parseDouble(amount));
+			Double result = 0.0;
+			DecimalFormat money = new DecimalFormat("0.00");
+			
+			if(toSGD.equals("1"))
+			{
+				result = (Double.parseDouble(amount)/Double.parseDouble(cd.get(0).getValue()));
+			}
+			else
+			{
+				result = (Double.parseDouble(cd.get(0).getValue())*Double.parseDouble(amount));
+				
+			}
+						
 			result = Math.round(result * 100.0) / 100.0;
 			out.println(result.toString());
 			

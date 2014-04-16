@@ -57,7 +57,8 @@
 															data : "amount="
 																	+ amount
 																	+ "&currency="
-																	+ currency,
+																	+ currency
+																	+ "&direction=0",
 															success : function(
 																	data) {
 																$("#outp")

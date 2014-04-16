@@ -3,6 +3,7 @@ package WebInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,9 +46,21 @@ public class getDataRateHistorical extends HttpServlet {
 			String current = request.getParameter("date");
 			String amount = request.getParameter("amount");
 			String currency = request.getParameter("currency");
+			String toSGD = request.getParameter("direction");
 				      
 			cd = dbo.checkCurreny(currency, current);
-			Double result = (Double.parseDouble(cd.get(0).getValue())*Double.parseDouble(amount));
+
+			Double result = 0.0;
+			if(toSGD.equals("1"))
+			{
+				result = (Double.parseDouble(amount)/Double.parseDouble(cd.get(0).getValue()));
+			}
+			else
+			{
+				result = (Double.parseDouble(cd.get(0).getValue())*Double.parseDouble(amount));
+				
+			}
+			
 			result = Math.round(result * 100.0) / 100.0;
 			out.println(result.toString());
 			
