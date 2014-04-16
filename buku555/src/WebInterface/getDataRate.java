@@ -83,19 +83,20 @@ public class getDataRate extends HttpServlet {
 				      
 			cd = dbo.checkCurreny(currency, datefmt.format(current));
 			Double result = 0.0;
+			Double resulttemp = 0.0;
 			DecimalFormat money = new DecimalFormat("0.00");
 			
 			if(toSGD.equals("1"))
-			{
-				result = (Double.parseDouble(amount)/Double.parseDouble(cd.get(0).getValue()));
-			}
-			else
-			{
-				result = (Double.parseDouble(cd.get(0).getValue())*Double.parseDouble(amount));
-				
-			}
+				 			{
+				 				result = (Double.parseDouble(amount)/Double.parseDouble(cd.get(0).getValue()));
+				 			}
+				 			else
+				 			{
+				 				result = (Double.parseDouble(cd.get(0).getValue())*Double.parseDouble(amount));
+				 				
+				 			}
 						
-			result = Math.round(result * 100.0) / 100.0;
+			result = Math.floor(result * 100.0) / 100.0;
 			out.println(result.toString());
 			
 			

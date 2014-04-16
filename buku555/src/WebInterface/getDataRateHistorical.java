@@ -61,7 +61,7 @@ public class getDataRateHistorical extends HttpServlet {
 				
 			}
 			
-			result = Math.round(result * 100.0) / 100.0;
+			result = Math.floor(result * 100.0) / 100.0;
 			out.println(result.toString());
 			
 		} catch (Exception e) {

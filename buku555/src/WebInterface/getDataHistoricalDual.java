@@ -56,7 +56,7 @@ public class getDataHistoricalDual extends HttpServlet {
 			Double toSGD = (Double.parseDouble(amount)/Double.parseDouble(ConvertToSGD.get(0).getValue()));
 			Double fromSGD = (toSGD)*Double.parseDouble(ConvertFromSGD.get(0).getValue());
 			
-			Double result = Math.round(fromSGD * 100.0) / 100.0;
+			Double result = Math.floor(fromSGD * 100.0) / 100.0;
 			//out.println(toSGD.toString()+" - "+fromSGD.toString()+" - "+result.toString());
 			out.println(result.toString());
 			
