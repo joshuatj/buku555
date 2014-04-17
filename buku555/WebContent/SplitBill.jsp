@@ -13,18 +13,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<!-- <link
- rel="stylesheet"
- href="http://code.jquery.com/ui/1.9.0/themes/smoothness/jquery-ui.css" /> -->
-<link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
-<script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
-<script src="scripts/jquery-ui.js" type="text/javascript"></script>
- <script src="scripts/cookie.js"></script>
-  <script src="scripts/global.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
-<link href="css/bootstrap/custom.css" rel="stylesheet">
+
+<!--  Common CSS -->
+<jsp:include page="template/css.jsp" />
+<!--  local style --> 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.fileupload.css">
+<script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
+
 <title>Split Bill</title>
 </head>
 <body>
@@ -155,6 +150,7 @@ window.fbAsyncInit = function () {
 	    			amounts : amounts
 	    			},
 	    		success : function (data) {
+	    			SendNotifToFriend($("#reason").val(), fbIds, amounts);
 	    			console.log(data);
 	    			//alert(data === 'success');
 	    			resetAll();
@@ -162,6 +158,37 @@ window.fbAsyncInit = function () {
 	    		}
 	    		});
 	    });
+	    
+	  //send notifications to friends
+     function SendNotifToFriend(reason, fbIds, amounts) {
+    	 for (i = 1; i < fbIds.length; i++) {
+    		var message = "I pin the bill with your share is " + amounts[i] + "$";
+    		if (reason != null && reason != '')
+    			message = message + ' for ' + reason;
+	 		FB.getLoginStatus(function (response) {
+	 			if (response.authResponse) {
+	 				FB.api('me/feed', 'post', { 
+	 					message: message, 
+	 					place: '101883206519751', 
+	 					tags: fbIds[i],
+	 					privacy : {
+	 						value : 'CUSTOM',
+	 						allow : fbIds[i]
+	 					},
+	 					description : "Bill Notification"},
+	 					function (response) {
+	 					      if (response && !response.error) {
+	 					    	  console.log(response);
+	 					      }
+	 					    
+	 					});
+	 				
+	 			}
+	 		}); 
+    	 }
+    	 
+			
+	  }
 	    
 	    $( "#addBtn" ).click(function( event ) {
 	    	countAdd ++;
@@ -337,30 +364,10 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">buku555</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="home.jsp">Home</a></li>
-			<li class="active"><a href="SplitBill.jsp">Split Bill</a></li>
-			<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
-			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
-            <li><a href="HistoryServlet">History</a></li>
-            
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-    
+	<!-- Start navigation -->
+	<jsp:include page="template/menu.jsp" flush="true" />
+	<!-- end navigation  -->
+	    
     
     <div class="container">
 
@@ -451,10 +458,11 @@ window.fbAsyncInit = function () {
 	 <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="scripts/bootstrap.min.js"></script>
+    <jsp:include page="template/js.jsp" />
+    
+    <!-- The basic File Upload plugin -->
     <script src="scripts/jsUpload/vendor/jquery.ui.widget.js"></script>
     <script src="scripts/jsUpload/jquery.iframe-transport.js"></script>
-	<!-- The basic File Upload plugin -->
 	<script src="scripts/jsUpload/jquery.fileupload.js"></script>
 	   
 </body>

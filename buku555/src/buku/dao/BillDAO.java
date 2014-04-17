@@ -127,7 +127,7 @@ public class BillDAO extends AbstractDAO {
 			Transaction tx = s.beginTransaction();
 			Integer maxID = (Integer) s.createQuery("select max(id) from Bill").uniqueResult();
 			tx.commit();
-			return maxID;
+			return maxID == null ? 0 : maxID;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;

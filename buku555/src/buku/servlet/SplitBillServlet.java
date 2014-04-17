@@ -3,6 +3,8 @@ package buku.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -58,7 +60,6 @@ public class SplitBillServlet extends HttpServlet {
 		//System.out.println(request.getParameter("totalAmount"));
 		//System.out.println(request.getParameter("reason"));
 		HttpSession sess = request.getSession();
-		//User logInUser = userDAO.findByFbId("11111");
 		User logInUser = (User) sess.getAttribute("loginUser");
 		//Create a new Bill
 		
@@ -66,7 +67,16 @@ public class SplitBillServlet extends HttpServlet {
 		bill.setUser(logInUser);
 		bill.setTotalAmount(Double.parseDouble(request.getParameter("totalAmount")));
 		bill.setReason(request.getParameter("reason"));
-		bill.setDate(new Date(request.getParameter("date")));
+		String date = request.getParameter("date").trim();
+		
+		if (date != null || !date.isEmpty()){
+			try {
+				bill.setDate(new Date(date));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+		}
+			
 		//bill.setPhoto("photo");
 		int billId = billDAO.persist(bill);
 		String path = request.getServletContext().getRealPath("/")+"imgs/bill/";
