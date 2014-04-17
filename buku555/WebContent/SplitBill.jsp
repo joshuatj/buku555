@@ -15,8 +15,7 @@
 <meta name="author" content="">
 
 
-
-
+<!--  Common CSS -->
 <jsp:include page="template/css.jsp" />
 
 <!--  local style --> 
@@ -335,29 +334,9 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">buku555</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="home.jsp">Home</a></li>
-			<li class="active"><a href="SplitBill.jsp">Split Bill</a></li>
-			<li><a href="LoanMoneyServlet?action=list">Record Payment</a></li>
-			<li><a href="LoanItemServlet?action=list">Record Item</a></li>
-            <li><a href="HistoryServlet">History</a></li>
-            
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+<!-- Start navigation -->
+<jsp:include page="template/menu.jsp" flush="true" />
+<!-- end navigation  -->
     
     
     <div class="container">
@@ -446,6 +425,7 @@ window.fbAsyncInit = function () {
 	  </div> <!-- landing  -->
 
     </div><!-- /.container -->
+    
 	 <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

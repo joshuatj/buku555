@@ -1,17 +1,26 @@
 <ul class="nav navbar-nav">
-					<li><a href="SplitBill.jsp">Home</a></li>
-					<li><a href="SplitBill.jsp">Split Bill</a></li>
-					<li><a href="LoanMoneyServlet?action=list">Show Bill Record</a></li>
-					<li><a href="LoanItem.jsp">Loan Item</a></li>
-					<li><a href="LoanItemServlet?action=list">Show Items Loaned</a></li>
 					
-					<li class="dropdown">
-                	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Convert Currency<b class="caret"></b></a>
-               		<ul class="dropdown-menu">
-                    <li><a href="getRate.jsp">Todays SGD Rate</a></li>
-                    <li><a href="getHistoricRate.jsp">Historic Rates</a></li>
-                    <li><a href="getHistoricOtherCurrency.jsp">Multiple Historic Currency</a></li>
-                    
-                    </ul>
+	<li class="dropdown">
+	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Money<b class="caret"></b></a>
+           		<ul class="dropdown-menu">
+		<li><a href="SplitBill.jsp">Split Bill</a></li>
+		<li><a href="LoanMoneyServlet?action=list">Show Bill Record</a></li>
+	</ul>
+	
+	<li class="dropdown">
+	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Item<b class="caret"></b></a>
+           		<ul class="dropdown-menu">
+		<li><a href="LoanItem.jsp">Record Item</a></li>
+		<li><a href="LoanItemServlet?action=list">Show Items </a></li>
+	</ul>
+	
+	<li class="dropdown">
+            	<a href="#" data-toggle="dropdown" class="dropdown-toggle">Convert Currency<b class="caret"></b></a>
+           		<ul class="dropdown-menu">
+                <li><a href="getRate.jsp">Todays SGD Rate</a></li>
+                <li><a href="getHistoricRate.jsp">Historic Rates</a></li>
+                <li><a href="getHistoricOtherCurrency.jsp">Multiple Historic Currency</a></li>
+                
+                </ul>
 
-				</ul>
+</ul>

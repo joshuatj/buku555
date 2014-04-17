@@ -13,31 +13,17 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>Loan Item List</title>
-<!-- Bootstrap core CSS -->
- <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
-<link href="css/bootstrap/custom.css" rel="stylesheet">
+<!--  Common CSS -->
+<jsp:include page="template/css.jsp" />
+
 </head>
 <body>
 <script type="text/javascript"></script>
 
-<div class="navbar bg-green navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">buku555</a>
-        </div>
-        <div class="collapse navbar-collapse">
-				<jsp:include page="menu.html" flush="true" />
-			</div><!--/.nav-collapse -->
-      </div>
-    </div>
+<!-- Start navigation -->
+<jsp:include page="template/menu.jsp" flush="true" />
+<!-- end navigation  -->
     
     <div class="container">
     <div class="landing">
@@ -117,13 +103,12 @@
             </c:forEach>
     </tbody>
 </table>
-<p><a href="LoanItemServlet?action=insert">Add Loan Item</a></p>
+<p><a href="LoanItemServlet?action=insert">Add new Item</a></p>
 <p><a href="/HibernateTest/SplitBill.jsp">Add new Bill</a></p>
 </div>
 
 </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="scripts/bootstrap.min.js"></script>
+ <jsp:include page="template/js.jsp" />
 </body>
 </html>
