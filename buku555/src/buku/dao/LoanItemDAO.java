@@ -37,7 +37,7 @@ public class LoanItemDAO extends AbstractDAO {
 //		}
 //	}
 
-	public void persist(LoanItem transientInstance) {
+	public Integer persist(LoanItem transientInstance) {
 		log.debug("persisting LoanItem instance");
 		Session s = getCurrentSession();
 		try {
@@ -45,6 +45,7 @@ public class LoanItemDAO extends AbstractDAO {
 			s.persist(transientInstance);
 			tx.commit();
 			log.debug("persist successful");
+			return transientInstance.getId();
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
 			throw re;
@@ -148,6 +149,19 @@ public class LoanItemDAO extends AbstractDAO {
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer getLatestInsertedId(){
+		Session s = getCurrentSession();
+		try {
+			org.hibernate.Transaction tx = s.beginTransaction();
+			Integer maxID = (Integer) s.createQuery("select max(id) from LoanItem").uniqueResult();
+			tx.commit();
+			return maxID;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;

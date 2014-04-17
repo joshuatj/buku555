@@ -1,6 +1,8 @@
 package buku.servlet;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -58,8 +60,6 @@ public class BillServlet extends HttpServlet {
             request.setAttribute("billSharedItems", items);
             request.setAttribute("bill", bill);
 //            request.setAttribute("totalAmount", !items.isEmpty() ? items.get(0).getLoanItem().getTotalAmount() : "0");
-        } else if (action.equalsIgnoreCase("pinit")){
-        	forward = LIST_BILL_SHARED;
         }
         
         RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -70,7 +70,29 @@ public class BillServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		BillDAO billDAO = new BillDAO();
+		Bill bill = billDAO.findById(id);
+		String reason = request.getParameter("reason");
+		Date date = new Date(request.getParameter("date"));
+		bill.setReason(reason);
+		bill.setDate(date);
+		
+		if (bill.getPhoto() == null){
+			String path = request.getServletContext().getRealPath("/")+"imgs/bill/";
+			String fileName = "bill_" + id + ".png";
+			File file = new File(path + fileName);
+			if (file.exists()){
+				bill.setPhoto(fileName);
+			}
+		}
+		billDAO.update(bill);
+		
+		User logInUser = (User) request.getSession().getAttribute("loginUser");
+        request.setAttribute("billItems", billDAO.findByOwnerId(logInUser.getId())); 
+        RequestDispatcher view = request.getRequestDispatcher(LIST_BILL_SHARED);
+        view.forward(request, response);
+		
 	}
 
 }

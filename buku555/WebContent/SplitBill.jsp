@@ -20,6 +20,7 @@
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
  <script src="scripts/cookie.js"></script>
+  <script src="scripts/global.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap/custom.css" rel="stylesheet">
@@ -99,6 +100,12 @@ window.fbAsyncInit = function () {
 		
 		var totalAmount = 0;
 	    $( "#splitButton" ).click(function( event ) {
+	    	var amountEnter = $( "#totalAmount" ).val();
+	    	if (!validateNumber(amountEnter)){
+	    		alert('Please enter a valid amount to share');
+	    		return;
+	    	}
+	    		
 	        $('#splitBill').show();
 	        totalAmount = $( "#totalAmount" ).val();
 	        $('[name=amount1]').val(totalAmount);
@@ -109,6 +116,15 @@ window.fbAsyncInit = function () {
 	    });
 	    
 	    $("#pinitBtn").click(function( event ) {
+	    	//validate before submit
+	    	if (!validateNumber($("#totalAmount").val())){
+	    		alert('Please enter a valid amount to share');
+	    		return;
+	    	}
+	    	if (counter == 1){
+	    		alert('Please add more friends to share the bill');
+	    		return;
+	    	}
 	    	
 	    	var fbIds = new Array();
 	    	var amounts = new Array();
@@ -201,6 +217,23 @@ window.fbAsyncInit = function () {
 	            //if (counter == 5) $('#addrow').attr('disabled', true).prop('value', "You've reached the limit");
 	    	}
 
+	    // listen to the change of total amount
+	    $("#totalAmount").change(function(){ 
+	    	var amountEnter = $(this).val();
+	    	if (!validateNumber(amountEnter)){
+	    		alert('Please enter a valid amount to share');
+	    		return;
+	    	}
+	    	
+	    	totalAmount = amountEnter;
+	    	if (totalAmount % counter == 0)
+	        	$('[name^=amount]').val(calculateShareAmount(totalAmount, counter));
+	        else
+	        	calculateShareAmount(totalAmount, counter);
+	    	
+	    }); 
+	    
+	    //listen to change in each row
 	    $("#myTable").on("change", 'input[name^="amount"]', function (event) {
 	    	
 	    	var currentAmount = $(event.target).val();
@@ -244,7 +277,7 @@ window.fbAsyncInit = function () {
 	    		tmp = tmp.toFixed(2);
 	    		firstAmount = totalAmount - tmp * (numberShare -1);
 	    		$('[name^=amount]').val(tmp);
-	    		$('[name=amount1]').val(firstAmount);
+	    		$('[name=amount1]').val(firstAmount.toFixed(2));
 	    		//return amount / numberShare;
 	    	}
 	    }

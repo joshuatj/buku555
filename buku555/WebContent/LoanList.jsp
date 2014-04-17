@@ -52,6 +52,7 @@
          <th>To User</th>
          <th>Item Type</th>
          <th>Loan Status</th>
+         <th>Photo</th>
          <th colspan=2>Action</th>
      </tr>
  	</thead>
@@ -64,6 +65,13 @@
                     <td><c:out value="${item.userByLoanUserId.name}" /></td>
                     <td><c:out value="${item.itemType.itemTypeName}" /></td>
                     <td><c:out value="${item.loanStatus}" /></td>
+                    <td>
+                    	<c:if test="${item.photo != null}">
+                    		<a target="_blank" href="UploadServlet?type=item&getfile=<c:out value="${item.photo}"/> ">
+                    			<img src="UploadServlet?type=item&getthumb=<c:out value="${item.photo}"/> ">
+                    		</a>
+                    	</c:if>
+                    </td>
                     <td><a href="LoanItemServlet?action=edit&loanType=1&id=<c:out value="${item.id}"/>">Update</a></td>
                     <td><a href="LoanItemServlet?action=delete&id=<c:out value="${item.id}"/>">Delete</a></td>
                     <%-- <td><a href="TestServlet?action=split&billId=<c:out value="${item.id}"/>">Split</a></td> --%>
@@ -82,6 +90,7 @@
          <th>From User</th>
          <th>Item Type</th>
          <th>Loan Status</th>
+         <th>Photo</th>
          <th colspan=2>Action</th>
      </tr>
  	</thead>
@@ -94,6 +103,13 @@
                     <td><c:out value="${item.userByOwnerUserId.name}" /></td>
                     <td><c:out value="${item.itemType.itemTypeName}" /></td>
                     <td><c:out value="${item.loanStatus}" /></td>
+                    <td>
+                    	<c:if test="${item.photo != null}">
+                    		<a target="_blank" href="UploadServlet?type=item&getfile=<c:out value="${item.photo}"/> ">
+                    			<img src="UploadServlet?type=item&getthumb=<c:out value="${item.photo}"/> ">
+                    		</a>
+                    	</c:if>
+                    </td>
                     <td><a href="LoanItemServlet?action=edit&loanType=2&id=<c:out value="${item.id}"/>">Update</a></td>
                     <td><a href="LoanItemServlet?action=delete&id=<c:out value="${item.id}"/>">Delete</a></td>
                     <%-- <td><a href="TestServlet?action=split&billId=<c:out value="${item.id}"/>">Split</a></td> --%>
@@ -101,6 +117,8 @@
             </c:forEach>
     </tbody>
 </table>
+<p><a href="LoanItemServlet?action=insert">Add Loan Item</a></p>
+<p><a href="/HibernateTest/SplitBill.jsp">Add new Bill</a></p>
 </div>
 
 </div>

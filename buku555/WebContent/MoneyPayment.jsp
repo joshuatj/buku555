@@ -92,6 +92,16 @@ window.fbAsyncInit = function() {
     	
         
     	$( "#submit" ).click(function( event ) {
+    		if(!validateNumber($("#amount").val())){
+    			alert("Please input a positive number");
+    			return;
+    		}
+    		
+    		if($('#name').val() ==''){
+    			alert("Please choose a friend");
+    			return;
+    		}
+    		
     		$.ajax({ 
     	   		type: "POST",
     	   		url: "LoanMoneyServlet",
@@ -108,6 +118,7 @@ window.fbAsyncInit = function() {
     	   		}
     	   		});
         });
+    	
     	
     	//upload files function
 	    $('#fileupload').fileupload({
@@ -197,11 +208,11 @@ window.fbAsyncInit = function() {
 		<option value="GBP">GBP</option>
 	</select>
 	<input type="text" id="amount" value="${loanItem.totalLoanAmount}" placeholder="How much?"/>
-	<input id="reason" placeholder="For what? (e.g. nasi lemak)">
-	<button id="cancel" class="btn split-bill">Cancel</button>
+	<input id="reason" value="Settle Up" placeholder="For what? (e.g. nasi lemak)">
+	<button id="cancel" class="btn split-bill" onclick="document.location='LoanMoneyServlet?action=list'">Cancel</button>
 </div>
 <div class="pin-tab-lower">
-	<table class="table table-no-border">
+	<!-- <table class="table table-no-border">
 	<tbody>
 	<tr>
 		<td>Joshua Ng (me)</td>
@@ -209,7 +220,7 @@ window.fbAsyncInit = function() {
 		<td>Gary Kuen</td>
 	</tr>			
 	</tbody>
-	</table>
+	</table> -->
 	
 	<table class="table table-no-border">
 	<tbody>

@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import buku.dao.BillDAO;
+import buku.dao.LoanItemDAO;
 import buku.dao.TransactionDAO;
 
 @WebServlet("/UploadServlet")
@@ -117,14 +118,29 @@ public class UploadServlet extends HttpServlet {
         
         String fileName = "";
         String type = request.getParameter("type");
+        String id = request.getParameter("id");
         if (type.equalsIgnoreCase("bill")){
-        	BillDAO billDAO = new BillDAO();
-        	int number = billDAO.getLatestInsertedId() + 1;
-        	fileName = "bill_" + number + ".png";
-        }if (type.equalsIgnoreCase("transaction")){
+        	if (id == null || id.isEmpty()){
+	        	BillDAO billDAO = new BillDAO();
+	        	int number = billDAO.getLatestInsertedId() + 1;
+	        	fileName = "bill_" + number + ".png";
+        	} else
+        		fileName = "bill_" + id + ".png";
+        }else if (type.equalsIgnoreCase("transaction")){
         	TransactionDAO transactionDAO = new TransactionDAO();
         	int number = transactionDAO.getLatestInsertedId() + 1;
         	fileName = "transaction_" + number + ".png";
+        }else if (type.equalsIgnoreCase("item")){
+        	if (id == null || id.isEmpty()){
+        		LoanItemDAO loanItemDAO = new LoanItemDAO();
+            	int number = loanItemDAO.getLatestInsertedId() + 1;
+            	fileName = "item_" + number + ".png";
+        	} else{
+        		fileName = "item_" + id + ".png";
+        	}
+        		
+        		
+        	
         }
         	
         
