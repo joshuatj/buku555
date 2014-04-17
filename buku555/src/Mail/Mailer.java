@@ -19,39 +19,76 @@ public class Mailer implements Runnable {
     @Override
     public void run() {
         // Do your mailing job here.
-    	
+    	SendMail mymail=new SendMail();
     	try
 		{
+    		String id,toaddress, title, msgtxt,loanowner = null, debter=null;
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/buku3","root","toor");
 				
-				Statement st2=(Statement) con.createStatement();				
-				ResultSet rs2=((java.sql.Statement) st2).executeQuery("SELECT * FROM loan_money,user where loan_money.loan_user_id=user.id and Received_Notimail='1'");
-				while(rs2.next()){					
-					SendMail mymail=new SendMail();
-					String toaddress=rs2.getString("email");
-					String title="Reminder to pay bill";
-					String msgtxt="Dear user,"+"<br>"+ "This is the reminder for the bill you have to paid." +"<br>"+"amount to pay:" + rs2.getString("total_loan_amount");
+				Statement st2=(Statement) con.createStatement();	
+				ResultSet rs=((java.sql.Statement) st2).executeQuery("SELECT * FROM user Where email is not null and Receive_Notimail=1");
+				while(rs.next()){
+					id=rs.getString("id");
+					toaddress=rs.getString("email");
+					msgtxt="Dear user,"+"<br>"+ "This is the reminder for the bill and item you have to paid and receive." +"<br>";
+					ResultSet rs2=((java.sql.Statement) st2).executeQuery("SELECT * FROM loan_money where loan_money.loan_user_id="+id);
+					while(rs2.next()){
+						String ownerid=rs2.getString("owner_user_id");
+						ResultSet rsowner=((java.sql.Statement) st2).executeQuery("SELECT * FROM user where id="+ownerid);
+						while(rsowner.next()){
+							loanowner=rsowner.getString("fb_user_id");
+						}
+						msgtxt+="amount to pay "+ loanowner +"-"+ rs2.getString("total_loan_amount")+"<br>";
+					}
+					
+					rs2.close();
+					
+					ResultSet rs3=((java.sql.Statement) st2).executeQuery("select * from loan_item where loan_item.loan_status='LOAN' and loan_user_id="+id);
+					while(rs3.next()){
+						String ownerid=rs3.getString("owner_user_id");
+						ResultSet rsowner=((java.sql.Statement) st2).executeQuery("SELECT * FROM user where id="+ownerid);
+						while(rsowner.next()){
+							loanowner=rsowner.getString("fb_user_id");
+						}
+						msgtxt+="item to pay "+ loanowner +"-"+ rs3.getString("description")+"<br>";
+					}
+					rs3.close();
+					
+					ResultSet rs4=((java.sql.Statement) st2).executeQuery("SELECT * FROM loan_money where loan_money.owner_user_id="+id);
+					while(rs4.next()){
+						String debterid=rs4.getString("loan_user_id");
+						ResultSet rsdebter=((java.sql.Statement) st2).executeQuery("SELECT * FROM user where id="+debterid);
+						while(rsdebter.next()){
+							debter=rsdebter.getString("fb_user_id");
+						}
+						msgtxt+="amount to receive from "+ debter +"-"+ rs2.getString("total_loan_amount")+"<br>";
+					}
+					
+					rs2.close();
+					
+					ResultSet rs5=((java.sql.Statement) st2).executeQuery("select * from loan_item where loan_item.loan_status='LOAN' and owner_user_id="+id);
+					while(rs5.next()){
+						String debterid=rs5.getString("loan_user_id");
+						ResultSet rsdebter=((java.sql.Statement) st2).executeQuery("SELECT * FROM user where id="+debterid);
+						while(rsdebter.next()){
+							debter=rsdebter.getString("fb_user_id");
+						}
+						msgtxt+="item to receive from "+ debter +"-"+ rs3.getString("description")+"<br>";
+					}
+					rs3.close();
+					
+					title="Reminder for loan";
 					mymail.sendingmail( toaddress, title, msgtxt);	
-			
-				}
-				rs2.close();			
-				Statement st3=(Statement) con.createStatement();
-			ResultSet rs3=((java.sql.Statement) st3).executeQuery("select * from loan_item,user where loan_item.loan_user_id=user.id and loan_item.loan_status='1' and Received_Notimail='1'");
-			while(rs3.next()){
-				//String Owner_id=rs3.getString("owner_user_id");
-				SendMail mymail=new SendMail();
-				String toaddress=rs3.getString("email");
-				String title="Reminder of Loan Item";				
-				String msgtxt="Dear user,"+"<br>"+ "This is the reminder for the bill you have to paid. " +"<br>"+"Loan Item:" + rs3.getString("description");
-				mymail.sendingmail(toaddress, title, msgtxt);
-				
-			}
-						
-			rs3.close();
-			con.close();    
+					
+					con.close();  
+				}							
+								
+			  
 		}catch(Exception e){}
     	finally {}	
-    	}
-    }
+   }
+}
+    
+
     
