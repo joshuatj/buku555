@@ -11,15 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="css/bootstrap/custom.css" rel="stylesheet">
-
-<link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
+<!--  Common CSS -->
+<jsp:include page="template/css.jsp" />
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
-<script src="scripts/jquery-ui.js" type="text/javascript"></script>
-<script src="scripts/global.js" type="text/javascript"></script>
 <title>Get Today's Rate</title>
 
 <script type="text/javascript">
@@ -128,26 +122,9 @@
 		}
 	%>
 
-	<!-- Start navigation -->
-	<div class="navbar bg-green navbar-inverse navbar-fixed-top"
-		role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">buku555</a>
-			</div>
-			<div class="collapse navbar-collapse">
-				<jsp:include page="menu.html" flush="true" />
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</div>
-	<!-- end navigation  -->
+<!-- Start navigation -->
+<jsp:include page="template/menu.jsp" flush="true" />
+<!-- end navigation  -->
 
 	<div class="container">
 		<div class="landing">
@@ -192,6 +169,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="scripts/bootstrap.min.js" type="text/javascript"></script>
+	<jsp:include page="template/js.jsp" />
 </body>
 </html>

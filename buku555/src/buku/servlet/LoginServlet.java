@@ -64,6 +64,12 @@ public class LoginServlet extends HttpServlet {
 			u.setName(name);
 			u.setIsRegistered(true);
 			userDAO.persist(u);
+		} else {
+			if (email != null && u.getEmail() == null){
+				u.setEmail(email);
+				userDAO.update(u);
+			}
+				
 		}
 		
 		//preserve login user information

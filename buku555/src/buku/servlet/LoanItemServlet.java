@@ -96,12 +96,15 @@ public class LoanItemServlet extends HttpServlet {
             //dao.update(item);
         }
         item.setDescription(request.getParameter("description"));
-        try {
-            Date date = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("date"));
-            item.setDate(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (request.getParameter("date") != null){
+        	 try {
+                 Date date = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("date"));
+                 item.setDate(date);
+             } catch (ParseException e) {
+                 e.printStackTrace();
+             }
         }
+       
         
 //        int loanUserId = Integer.parseInt(request.getParameter("loanUser"));
         String loanUserId = request.getParameter("loanUserId");

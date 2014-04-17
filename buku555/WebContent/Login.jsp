@@ -2,14 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <c:if test="${sessionScope.loginUser != null}">
-    <%-- <jsp:forward page="/home.jsp"/>		 --%>
-     <c:redirect url="/home.jsp" />		
+     <c:redirect url="/SplitBill.jsp" />		
 </c:if>
-<head></head>
+<head>
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="css/bootstrap/custom.css" rel="stylesheet">
+<script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
+<title>Welcome to Baku555: Social Lending</title>
+</head>
 <body>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-	<script src="scripts/cookie.js"></script>
-	<script src="scripts/global.js"></script>
+	
 	<div id="fb-root"></div>
 	<script>
 		window.fbAsyncInit = function() {
@@ -90,7 +94,7 @@
     	  			success: function( data ) {
     	  				//console.log(response.id);
     	  				createCookie("loginUserId", response.id, 30);
-    	  				window.location = 'home.jsp';
+    	  				window.location = 'SplitBill.jsp';
     	  			}
 			    
 			    });
@@ -103,12 +107,45 @@
 			//alert(FB.getLoginStatus());
 		}
 	</script>
+	
+	
+	<!-- Start navigation -->
+	<div class="navbar bg-green navbar-inverse navbar-fixed-top"
+		role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">buku555</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+	<!-- end navigation  -->
+	
+	<div class="container">
+		<div class="landing">
+
+			<div class="record-payment">
+				<h1>Welcome to buku 555 - lending made social</h1>
+				<br />
+				Please create or access your account by signing in with your Facebook account.
+				<br /><br />
+			</div>
+		
 
 	<!--
   Below we include the Login Button social plugin. This button uses the JavaScript SDK to
   present a graphical Login button that triggers the FB.login() function when clicked. -->
 
-	<div class="fb-login-button" onlogin="facebookLogin()"  data-scope="publish_actions,publish_stream,user_friends,email" data-max-rows="1" data-size="xlarge"
+	<div class="fb-login-button" onlogin="facebookLogin()"  data-scope="publish_actions,publish_stream,user_friends,email,read_stream" data-max-rows="1" data-size="xlarge"
 		data-auto-logout-link="false"></div>
 	<!-- <form action="Login" method="GET"> -->
 		<!--This is a comment. Comments are not displayed in the browser
@@ -118,5 +155,8 @@ Password : <input type="password" name="password" size="20">
 		<br>
 		<br>
 	<!-- </form> -->
+	</div>
+	</div>
+	 <jsp:include page="template/js.jsp" />
 </body>
 </html>
