@@ -13,18 +13,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<!-- <link
- rel="stylesheet"
- href="http://code.jquery.com/ui/1.9.0/themes/smoothness/jquery-ui.css" /> -->
-<link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
-<script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
-<script src="scripts/jquery-ui.js" type="text/javascript"></script>
- <script src="scripts/cookie.js"></script>
-  <script src="scripts/global.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
-<link href="css/bootstrap/custom.css" rel="stylesheet">
+
+
+
+
+<jsp:include page="template/css.jsp" />
+
+<!--  local style --> 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.fileupload.css">
+
+
 <title>Split Bill</title>
 </head>
 <body>
@@ -451,9 +449,11 @@ window.fbAsyncInit = function () {
 	 <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="scripts/bootstrap.min.js"></script>
+    <jsp:include page="template/js.jsp" />
+    
     <script src="scripts/jsUpload/vendor/jquery.ui.widget.js"></script>
     <script src="scripts/jsUpload/jquery.iframe-transport.js"></script>
+    
 	<!-- The basic File Upload plugin -->
 	<script src="scripts/jsUpload/jquery.fileupload.js"></script>
 	   
