@@ -21,3 +21,16 @@ function validateNumber(value){
 	}
 	return true;
 }
+
+function logout(contextPath){
+    $.ajax({
+    	url: contextPath + "/LogoutServlet",
+	  	type: "POST",
+		success: function( data ) {
+			eraseCookie('loginUserId');
+			location.href = "Login.jsp";
+		}  
+    });
+}
+
+

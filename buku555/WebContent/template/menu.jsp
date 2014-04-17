@@ -18,7 +18,7 @@
 					class="dropdown-toggle">Money<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="SplitBill.jsp">Split Bill</a></li>
-						<li><a href="SplitBill.jsp">Record Bill</a></li>
+						<li><a href="SplitBill.jsp">Record Money Loan</a></li>
 						<li><a href="LoanMoneyServlet?action=list">Show Money Record</a></li>
 						<li><a href="BillServlet?action=list">Show Bill Record</a></li>
 					</ul>
@@ -38,12 +38,12 @@
 								Historic Currency</a></li>
 					</ul>
 				<li><a href="HistoryServlet">History</a></li>
-				<li><div class="fbimage"><!--IMAGE HERE --></div></li> 
+				<li><img class="fbimage" src='http://graph.facebook.com/${sessionScope.loginUser.fbUserId}/picture'/></li> 
 				<li class="dropdown"><a href="#" data-toggle="dropdown"
-					class="dropdown-toggle">Joshua<b class="caret"></b></a>
+					class="dropdown-toggle">${sessionScope.loginUser.name}<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="AccountSettings1.jsp">Settings</a></li>
-						<li><a href="#">Logout</a></li>					
+						<li><a id='btnLogout' onclick="logout('<%=request.getContextPath()%>');">Logout</a></li>					
 						
 					</ul>
 				
