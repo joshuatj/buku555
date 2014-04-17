@@ -440,7 +440,8 @@ window.fbAsyncInit = function () {
 					    <div id="files" class="files"></div>
 				
 				</td>
-				<td><button id='pinitBtn' >Pin It!</button></td>
+				<td><button id='pinitBtn' class="btn pin-it" >Pin It!</button>
+				</td>
 			</tr>
 		</tbody>
 		</table>
