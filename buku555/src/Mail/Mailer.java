@@ -18,7 +18,10 @@ public class Mailer implements Runnable {
 
     @Override
     public void run() {
-        // Do your mailing job here.
+    	
+    	
+    	//doooooo
+        //
     	SendMail mymail=new SendMail();
     	try
 		{
