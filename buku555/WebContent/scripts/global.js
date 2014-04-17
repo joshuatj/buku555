@@ -7,3 +7,17 @@ function getURLParam(sParam){
 			return sParameterName[1];
 	}
 };
+
+
+//some validation function
+function validateEmpty(value){
+	if (value == '')
+		return false;
+}
+
+function validateNumber(value){
+	if (value == '' || !$.isNumeric(value) || value <= 0){
+		return false;
+	}
+	return true;
+}

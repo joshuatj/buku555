@@ -1,5 +1,6 @@
 package buku.servlet;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -130,14 +131,26 @@ public class LoanItemServlet extends HttpServlet {
         item.setItemType(itemType);
         String loanStatus = request.getParameter("loanStatus") != null ? request.getParameter("loanStatus") : "LOAN";
         item.setLoanStatus(loanStatus);
+        int loanItemId;
         if(id == null || id.isEmpty())
         {
-            dao.persist(item);
+        	loanItemId = dao.persist(item);
         }
         else
         {
             dao.update(item);
+            loanItemId = Integer.parseInt(id);
         }
+        
+        String path = request.getServletContext().getRealPath("/")+"imgs/item/";
+		String fileName = "item_" + loanItemId + ".png";
+		File file = new File(path + fileName);
+		if (file.exists()){
+			item.setPhoto(fileName);
+			dao.update(item);
+		}
+        
+        
         RequestDispatcher view = request.getRequestDispatcher(LIST_LOAN_ITEM);
         request.setAttribute("loanItems", dao.findByOwnerId(logInUser.getId()));
         request.setAttribute("borrowItems", dao.findByLoanUserId(logInUser.getId())); 

@@ -1,17 +1,22 @@
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+<c:if test="${sessionScope.loginUser == null}">
+    <c:redirect url="/Login.jsp" />		
+</c:if>
 <title>Home</title>
 <script src="http://connect.facebook.net/en_US/all.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />
 <!-- <script type="text/javascript" src="js/fb-stuff.js"></script> -->
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/tdfriendselector.css" />
 <!-- Style source: tdfriendselector.scss -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet"
 	media="screen">
+<script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
+<script src="scripts/cookie.js" type="text/javascript"></script>
 <script type="text/javascript">
-	$(function() {
+	/* $(function() {
 		if ($.browser.msie && $.browser.version.substr(0, 1) < 7) {
 			$('li').has('ul').mouseover(function() {
 				$(this).children('ul').show();
@@ -19,10 +24,12 @@
 				$(this).children('ul').hide();
 			});
 		}
-	});
+	}); */
 </script>
+
 </head>
 <body>
+	
 	<div id="fb-root"></div>
 	<script type="text/javascript">
 	window.fbAsyncInit = function () {
@@ -31,66 +38,19 @@
 		
 		FB.Event.subscribe('auth.authResponseChange', function(response) {
 			if (response.status == 'connected') {
-				alert("connected");
+				//alert("connected");
 				//init();
 			} else if (response.status == 'not_authorized') {
 				//FB.login();
 				//alert("not auth");
 			} else {
 				//window.navigate("fbLogin.jsp");				
-				location.href = "fbLogin.jsp";
+				//location.href = "Login.jsp";
 			}
 		});
 		
 		$(document).ready(function () {
-			var selector1, selector2, logActivity, callbackFriendSelected, callbackFriendUnselected, callbackMaxSelection, callbackSubmit;
-
-			// When a friend is selected, log their name and ID
-			callbackFriendSelected = function(friendId) {
-				var friend, name;
-				friend = TDFriendSelector.getFriendById(friendId);
-				name = friend.name;
-				logActivity('Selected ' + name + ' (ID: ' + friendId + ')');
-			};
-
-			// When a friend is deselected, log their name and ID
-			callbackFriendUnselected = function(friendId) {
-				var friend, name;
-				friend = TDFriendSelector.getFriendById(friendId);
-				name = friend.name;
-				logActivity('Unselected ' + name + ' (ID: ' + friendId + ')');
-			};
-
-			// When the maximum selection is reached, log a message
-			callbackMaxSelection = function() {
-				logActivity('Selected the maximum number of friends');
-			};
-
-			// When the user clicks OK, log a message
-			callbackSubmit = function(selectedFriendIds) {
-				logActivity('Clicked OK with the following friends selected: ' + selectedFriendIds.join(", "));
-			};
-
-			// Initialise the Friend Selector with options that will apply to all instances
-			TDFriendSelector.init({debug: true});
-
-			// Create some Friend Selector instances
-			selector1 = TDFriendSelector.newInstance({
-				callbackFriendSelected   : callbackFriendSelected,
-				callbackFriendUnselected : callbackFriendUnselected,
-				callbackMaxSelection     : callbackMaxSelection,
-				callbackSubmit           : callbackSubmit
-			});
-			selector2 = TDFriendSelector.newInstance({
-				callbackFriendSelected   : callbackFriendSelected,
-				callbackFriendUnselected : callbackFriendUnselected,
-				callbackMaxSelection     : callbackMaxSelection,
-				callbackSubmit           : callbackSubmit,
-				maxSelection             : 1,
-				friendsPerPage           : 5,
-				autoDeselection          : true
-			});
-
+			
 			FB.getLoginStatus(function(response) {
 				if (response.authResponse) {
 					$("#login-status").html("Logged in");
@@ -111,26 +71,27 @@
 					}
 				}, {});
 			});
+			
+			function logout(){
+				var contextPath='<%=request.getContextPath()%>';
+			    $.ajax({
+			    	url: contextPath+"/LogoutServlet",
+		    	  	type: "POST",
+    	  			success: function( data ) {
+    	  				eraseCookie('loginUserId');
+    					location.href = "Login.jsp";
+    	  			}
+			    
+			    });
+			}
 
 			$("#btnLogout").click(function (e) {
-				e.preventDefault();
-				FB.logout();
+				logout();
+				//e.preventDefault();
+				//FB.logout();
 				$("#login-status").html("Not logged in");
 			});
 
-			$("#btnSelect1").click(function (e) {
-				e.preventDefault();
-				selector1.showFriendSelector();
-			});
-
-			$("#btnSelect2").click(function (e) {
-				e.preventDefault();
-				selector2.showFriendSelector();
-			});
-
-			logActivity = function (message) {
-				$("#results").append('<div>' + message + '</div>');
-			};
 		});
 	};
 	
@@ -167,23 +128,10 @@
 			</ul></li>
 		<li><div class="fb-login-button" data-max-rows="10"
 				data-size="small" data-show-faces="true"
-				data-auto-logout-link="true"></div></li>
+				data-auto-logout-link="false"></div></li>
+		<li><a id="btnLogout">Logout</a></li>
 	</ul>
 	<hr>
-
-	<div class="jumbotron">
-		<a href="#" id="btnSelect1" class="btn btn-primary btn-large">Select
-			your friends</a>
-		<hr>
-		<div id="results" class="lead">
-			<p>You will see result here</p>
-		</div>
-	</div>
-	
-	<form>
-		Facebook ID: <input type="text" id="fb_id"><br>	
-		<input type="button" value="get details" onclick="GetFriendDetailsByID(document.getElementById('fb_id').value)">	
-	</form>
 	<form>
 		Get Login Status: <input type="button" value="get login status" onclick="GetUserLoginStatus()">			
 	</form>
@@ -215,53 +163,14 @@
 	}	
 	function GetCurrentUserDetails() {
 		FB.api('/me', function(response) {    	
-			alert(response.name); 
-			alert(response.email);
-			alert(response.location.name);
-			alert(response.hometown.name);
+			//alert(response.name); 
+			console.log(response.email);
+			//alert(response.location.name);
+			//alert(response.hometown.name);
 		});
 	}
 	</script>
 	
-	<!-- Markup for These Days Friend Selector -->
-	<div id="TDFriendSelector">
-		<div class="TDFriendSelector_dialog">
-			<a href="#" id="TDFriendSelector_buttonClose">x</a>
-			<div class="TDFriendSelector_form">
-				<div class="TDFriendSelector_header">
-					<p>Select your friends</p>
-				</div>
-				<div class="TDFriendSelector_content">
-					<p>Then you can invite them to join you in the app.</p>
-					<div
-						class="TDFriendSelector_searchContainer TDFriendSelector_clearfix">
-						<div class="TDFriendSelector_selectedCountContainer">
-							<span class="TDFriendSelector_selectedCount">0</span> / <span
-								class="TDFriendSelector_selectedCountMax">0</span> friends
-							selected
-						</div>
-						<input type="text" placeholder="Search friends"
-							id="TDFriendSelector_searchField" />
-					</div>
-					<div class="TDFriendSelector_friendsContainer"></div>
-				</div>
-				<div class="TDFriendSelector_footer TDFriendSelector_clearfix">
-					<a href="#" id="TDFriendSelector_pagePrev"
-						class="TDFriendSelector_disabled">Previous</a> <a href="#"
-						id="TDFriendSelector_pageNext">Next</a>
-					<div class="TDFriendSelector_pageNumberContainer">
-						Page <span id="TDFriendSelector_pageNumber">1</span> / <span
-							id="TDFriendSelector_pageNumberTotal">1</span>
-					</div>
-					<a href="#" id="TDFriendSelector_buttonOK">OK</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/tdfriendselector.js"></script>
-	<!-- <script src="js/example.js"></script> -->
 </body>
 </html>
 

@@ -120,4 +120,17 @@ public class BillDAO extends AbstractDAO {
 			throw re;
 		}
 	}
+	
+	public Integer getLatestInsertedId(){
+		Session s = getCurrentSession();
+		try {
+			Transaction tx = s.beginTransaction();
+			Integer maxID = (Integer) s.createQuery("select max(id) from Bill").uniqueResult();
+			tx.commit();
+			return maxID;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
 }
