@@ -38,6 +38,15 @@
 								Historic Currency</a></li>
 					</ul>
 				<li><a href="HistoryServlet">History</a></li>
+				<li><div class="fbimage"><!--IMAGE HERE --></div></li> 
+				<li class="dropdown"><a href="#" data-toggle="dropdown"
+					class="dropdown-toggle">Joshua<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="AccountSettings1.jsp">Settings</a></li>
+						<li><a href="#">Logout</a></li>					
+						
+					</ul>
+				
 			</ul>
 		</div>
 		<!--/.nav-collapse -->
