@@ -47,7 +47,7 @@ public class UserServlet extends HttpServlet {
 		userDAO.update(logInUser);
 		request.getSession().setAttribute("loginUser", logInUser);
 		
-		response.sendRedirect("AccountSettings1.jsp");
+		response.sendRedirect("AccountSettings.jsp");
 //		RequestDispatcher view = request.getRequestDispatcher("/AccountSettings1.jsp");
 //        view.forward(request, response);
 

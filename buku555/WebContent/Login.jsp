@@ -10,7 +10,7 @@
 <!-- Custom styles for this template -->
 <link href="css/bootstrap/custom.css" rel="stylesheet">
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
-<title>Welcome to Baku555: Social Lending</title>
+<title>Welcome to Buku555: Social Lending</title>
 </head>
 <body>
 	
@@ -134,7 +134,7 @@
 		<div class="landing">
 
 			<div class="record-payment">
-				<h1>Welcome to buku 555 - lending made social</h1>
+				<h1>Welcome to buku555 - lending made social</h1>
 				<br />
 				Please create or access your account by signing in with your Facebook account.
 				<br /><br />
