@@ -18,7 +18,7 @@
 <jsp:include page="template/css.jsp" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.fileupload.css">
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
-<title>Money Payment</title>
+<title>Record Payment</title>
 </head>
 <body>
 <div id="fb-root"></div>
