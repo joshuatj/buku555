@@ -115,6 +115,7 @@ public class LoanMoneyServlet extends HttpServlet {
 		if (!currency.equalsIgnoreCase("SGD")){
 			try{
 				amount = convertToSGD(amount, currency);
+				System.out.println("###########" + amount);
 			}catch (Exception ex){
 				ex.printStackTrace();
 			}
@@ -173,11 +174,11 @@ public class LoanMoneyServlet extends HttpServlet {
 		// record loan money if there's no loan money between these 2 users
 		LoanMoney loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(fromWhoUser.getId(), toWhoUser.getId());
 		if (loanMoney != null){
-			loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() + amount);
+			loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() + amount));
 		} else {
 			loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(toWhoUser.getId(), fromWhoUser.getId());
 			if (loanMoney != null){
-				loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() - amount);
+				loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() - amount));
 			} else {
 				loanMoney = new LoanMoney();
 				loanMoney.setUserByOwnerUserId(fromWhoUser);
@@ -219,6 +220,10 @@ public class LoanMoneyServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		return amount;
+	}
+	
+	private double roundDouble(double amount){
+		return Math.floor(amount * 100.0) / 100.0;
 	}
 
 }

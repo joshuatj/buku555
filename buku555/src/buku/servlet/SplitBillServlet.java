@@ -136,13 +136,13 @@ public class SplitBillServlet extends HttpServlet {
 				LoanMoney loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(logInUser.getId(), u.getId());
 				// someone owe you
 				if (loanMoney != null){
-					loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() + amountToPay);
+					loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() + amountToPay));
 					
 				} else {
 					loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(u.getId(), logInUser.getId());
 					// u owe someone
 					if (loanMoney != null){
-						loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() - amountToPay);
+						loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() - amountToPay));
 					} else {
 						loanMoney = new LoanMoney();
 						loanMoney.setUserByOwnerUserId(logInUser);
@@ -159,6 +159,10 @@ public class SplitBillServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("success");
 		
+	}
+	
+	private double roundDouble(double amount){
+		return Math.floor(amount * 100.0) / 100.0;
 	}
 
 }
