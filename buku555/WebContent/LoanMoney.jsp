@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Loan Money</title>
+<title>Show Money Record</title>
 <!--  Common CSS -->
 <jsp:include page="template/css.jsp" />
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
