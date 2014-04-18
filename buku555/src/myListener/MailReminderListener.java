@@ -37,7 +37,7 @@ public class MailReminderListener implements ServletContextListener{
 	@Override
     public void contextInitialized(ServletContextEvent event) {       
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new Mailer(), 0, 1, TimeUnit.DAYS);	  	 
+		scheduler.scheduleAtFixedRate(new Mailer(), 0, 15, TimeUnit.MINUTES);	  	 
     }
 
     @Override
