@@ -273,7 +273,7 @@ window.fbAsyncInit = function() {
 		<option value="USD">USD</option>
 		<option value="GBP">GBP</option> -->
 	</select>
-	<input type="text" id="amount" value="${loanItem.totalLoanAmount}" placeholder="How much?"/>
+	<input type="text" id="amount" size="8" value="${loanItem.totalLoanAmount}" placeholder="How much?"/>
 	<input id="reason" placeholder="For what? (e.g. party)">
 	<button id="cancel" class="btn split-bill" onclick="document.location='LoanMoneyServlet?action=list'">Cancel</button>
 </div>
