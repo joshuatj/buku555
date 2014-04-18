@@ -16,22 +16,19 @@ public class LoanItem implements java.io.Serializable {
 	private Date date;
 	private String description;
 	private String photo;
-	private String establishmentPhoto;
 	private String loanStatus;
 
 	public LoanItem() {
 	}
 
 	public LoanItem(User userByLoanUserId, User userByOwnerUserId,
-			ItemType itemType, Date date, String description, String photo,
-			String establishmentPhoto, String loanStatus) {
+			ItemType itemType, Date date, String description, String photo, String loanStatus) {
 		this.userByLoanUserId = userByLoanUserId;
 		this.userByOwnerUserId = userByOwnerUserId;
 		this.itemType = itemType;
 		this.date = date;
 		this.description = description;
 		this.photo = photo;
-		this.establishmentPhoto = establishmentPhoto;
 		this.loanStatus = loanStatus;
 	}
 
@@ -89,14 +86,6 @@ public class LoanItem implements java.io.Serializable {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
-	}
-
-	public String getEstablishmentPhoto() {
-		return this.establishmentPhoto;
-	}
-
-	public void setEstablishmentPhoto(String establishmentPhoto) {
-		this.establishmentPhoto = establishmentPhoto;
 	}
 
 	public String getLoanStatus() {

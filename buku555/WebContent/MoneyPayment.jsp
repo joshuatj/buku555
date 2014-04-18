@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<jsp:useBean id="currencyDAO" scope="session" class="database.CurrencyDBAO"/>
 <html>
 <head>
+<c:if test="${sessionScope.loginUser == null}">
+    <c:redirect url="/Login.jsp" />		
+</c:if>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,7 +32,7 @@ window.fbAsyncInit = function() {
 		
 		if (response.authResponse) {	// if the user is authorized...
 			var accessToken = response.authResponse.accessToken
-			var tokenUrl = "https://graph.facebook.com/me/friends?access_token=" + accessToken + "&callback=?"
+			var tokenUrl = "https://graph.facebook.com/me/friends?access_token=" + accessToken + "&callback=?";
 
 			// Place <input id="name" /> and <input id="fbuid" /> into HTML
 			//console.log(tokenUrl);
@@ -102,6 +107,7 @@ window.fbAsyncInit = function() {
     	   		url: "LoanMoneyServlet",
     	   		data: {
     	   			amount : $("#amount").val(),
+    	   			currency : $("#type").val(),
     	   			selectWhoPaid : $("#selectWhoPaid").val(),
     	   			reason : $("#reason").val(),
 	    			date: $("#date").val(),
@@ -109,11 +115,67 @@ window.fbAsyncInit = function() {
     	   			fbId: $('#fbId').val()
     	   			},
     	   		success : function (data) {
-    	   			alert(data);
+    	   			if ($("#notiFriend").is(":checked")){
+    	   				SendNotiToFriend($("#reason").val(), $("#amount").val(), $('#fbId').val(), $("#type").val());
+    	   			}
+    	   				
+    	   			resetAll();
     	   		}
     	   		});
         });
     	
+    	function resetAll(){
+    		$("#amount").val('');
+    		$("#date").val('');
+    		$("#selectWhoPaid").val('1');
+    		$("#reason").val('');
+    		$('#name').val('');
+    		$('#type').val('SGD');
+    		$('#files').html('');
+    	}
+    	
+    	 //send notifications to friends
+        function SendNotiToFriend(reason, amount, fbId, currency) {
+    		var selectWhoPaid = $('#selectWhoPaid').val();
+    		var message = '';
+    		if (selectWhoPaid == '1'){
+    			message = 'I paid you ';
+    		} else if (selectWhoPaid == '2'){
+    			message = 'You paid me ';
+    		} else if (selectWhoPaid == '3'){
+    			message = 'I owe you ';
+    		} else if (selectWhoPaid == '4'){
+    			message = 'You owe me ';
+    		}
+    		
+    		message = message + amount + ' ' + currency;
+       		if (reason != null && reason != '')
+       			message = message + ' for ' + reason;
+       		if (selectWhoPaid == '2')
+       			message = message + ". Thank you!";
+       		
+   	 		FB.getLoginStatus(function (response) {
+   	 			if (response.authResponse) {
+   	 				FB.api('me/feed', 'post', { 
+   	 					message: message, 
+   	 					place: '101883206519751', 
+   	 					tags: fbId,
+   	 					privacy : {
+   	 						value : 'CUSTOM',
+   	 						allow : fbId
+   	 					},
+   	 					description : "Money Notification"},
+   	 					function (response) {
+   	 					      if (response && !response.error) {
+   	 					    	  console.log(response);
+   	 					      }
+   	 					    
+   	 					});
+   	 				
+   	 			}
+   	 		}); 
+	
+   	  }
     	
     	//upload files function
 	    $('#fileupload').fileupload({
@@ -144,6 +206,24 @@ window.fbAsyncInit = function() {
                     		}
             );
         });
+	    
+	    
+	    //listen to currency change
+	    /* $( "#type" ).change(function() {
+            var amount = $("#amount").val();
+            var currency = $("#type").val();
+                         
+          	$.ajax({
+                   type : "GET",
+                   url : "/buku555/getDataRate",
+                   data : "amount=" + amount  + "&currency=" + currency + "&direction=1",                        
+                   success : function(data) {
+                	   console.log(data);         
+                      $("#hiddenAmount").val(data);
+                   }
+		     });
+		}); */
+	    
     	
     });
 };
@@ -174,33 +254,29 @@ window.fbAsyncInit = function() {
 		<option value="3">I owe</option>
 		<option value="4">Owes me</option>
 	</select>
-	<select name="type" class="dropdown-toggle">
-		<option value="MYR">MYR</option>
+	<select id="type" name="type" class="dropdown-toggle">
+		<c:forEach items="${currencyDAO.getDBKnownCurrencies()}" var="item">
+		<c:choose>
+			<c:when test="${item == 'SGD'}">
+				<option value="${item}" selected='selected'><c:out value="${item}"/></option>  
+			</c:when>
+			<c:otherwise>
+				<option value="${item}"><c:out value="${item}"/></option>  
+			</c:otherwise>
+		</c:choose>
+       </c:forEach>  
+		<!-- <option value="MYR">MYR</option>
 		<option value="S$" selected="selected">S$</option>
 		<option value="USD">USD</option>
-		<option value="GBP">GBP</option>
+		<option value="GBP">GBP</option> -->
 	</select>
 	<input type="text" id="amount" value="${loanItem.totalLoanAmount}" placeholder="How much?"/>
-	<input id="reason" value="Settle Up" placeholder="For what? (e.g. nasi lemak)">
+	<input id="reason" value="Settle Up" placeholder="For what? (e.g. party)">
 	<button id="cancel" class="btn split-bill" onclick="document.location='LoanMoneyServlet?action=list'">Cancel</button>
 </div>
 <div class="pin-tab-lower">
-	<!-- <table class="table table-no-border">
-	<tbody>
-	<tr>
-		<td>Joshua Ng (me)</td>
-		<td>owes</td>
-		<td>Gary Kuen</td>
-	</tr>			
-	</tbody>
-	</table> -->
-	
 	<table class="table table-no-border">
 	<tbody>
-		<!-- <tr>
-			<td></td>
-			<td>Joshua Ng (me) paid</td>
-		</tr> -->
 		<tr>
 			<td>
 				On Date 
@@ -209,6 +285,10 @@ window.fbAsyncInit = function() {
 				<input id="date" type="text" name="date" />
 			</td>
 			
+		</tr>
+		<tr>
+			<td><input type="checkbox" id="notiFriend" checked/>&nbsp; Notify friends via Facebook</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>

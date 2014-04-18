@@ -106,9 +106,6 @@ window.fbAsyncInit = function () {
 	        $('[name=amount1]').val(totalAmount);
 	    });
 	    
-	    $("#test").click(function( event ) {
-	    	resetAll();
-	    });
 	    
 	    $("#pinitBtn").click(function( event ) {
 	    	//validate before submit
@@ -150,9 +147,10 @@ window.fbAsyncInit = function () {
 	    			amounts : amounts
 	    			},
 	    		success : function (data) {
-	    			SendNotifToFriend($("#reason").val(), fbIds, amounts);
-	    			console.log(data);
-	    			//alert(data === 'success');
+	    			if ($("#notiFriend").is(":checked")){
+	    				SendNotifToFriend($("#reason").val(), fbIds, amounts);
+    				}
+
 	    			resetAll();
 	    			
 	    		}
@@ -419,6 +417,10 @@ window.fbAsyncInit = function () {
 		</table>
 		<table class="table table-no-border">
 		<tbody>
+			<tr>
+				<td><input type="checkbox" id="notiFriend" checked/>&nbsp; Notify friends via Facebook</td>
+				<td></td>
+			</tr>
 			<tr>
 				<td>
 					On Date 

@@ -3,6 +3,8 @@ package buku.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import database.CurrencyDBAO;
+import database.CurrencyDetails;
 
 import buku.dao.LoanMoneyDAO;
 import buku.dao.TransactionDAO;
@@ -101,9 +106,20 @@ public class LoanMoneyServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		double amount = Double.parseDouble(request.getParameter("amount"));
+		String currency = request.getParameter("currency");
 		String fbId = request.getParameter("fbId");
 		int selectWhoPaid = Integer.parseInt(request.getParameter("selectWhoPaid"));
 		String name = request.getParameter("name");
+		
+		//try to convert from other currency to SGD
+		if (!currency.equalsIgnoreCase("SGD")){
+			try{
+				amount = convertToSGD(amount, currency);
+			}catch (Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
 		
 		
 		User loginUser = (User) request.getSession().getAttribute("loginUser");
@@ -127,7 +143,12 @@ public class LoanMoneyServlet extends HttpServlet {
 		//record the transaction history
 		Transaction t = new Transaction();
 		t.setPaidAmount(amount);
-		t.setTransactionDate(new Date(request.getParameter("date")));
+		try{
+			t.setTransactionDate(new Date(request.getParameter("date")));
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
+			
 		t.setReason(request.getParameter("reason"));
 		if (selectWhoPaid == 1 || selectWhoPaid == 2){
 			t.setTransactionType(1); //paid transaction
@@ -169,6 +190,35 @@ public class LoanMoneyServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		out.println("success");
+	}
+	
+	private Double convertToSGD(double amount, String currency){
+		CurrencyDBAO dbo = null;
+		try {
+			dbo = new CurrencyDBAO();
+		} catch (Exception e1) {
+			
+			e1.printStackTrace();
+		}
+		
+		ArrayList<CurrencyDetails> cd = new ArrayList<CurrencyDetails>();
+        
+		try {
+			Date current = new Date();
+			SimpleDateFormat datefmt = new SimpleDateFormat ("yyyy-MM-dd");
+				      
+			cd = dbo.checkCurreny(currency, datefmt.format(current));
+			Double result = 0.0;
+			DecimalFormat money = new DecimalFormat("0.00");
+			result = (amount/Double.parseDouble(cd.get(0).getValue()));		
+			result = Math.floor(result * 100.0) / 100.0;
+			return result;
+			
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return amount;
 	}
 
 }

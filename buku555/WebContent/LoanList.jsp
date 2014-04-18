@@ -6,6 +6,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<c:if test="${sessionScope.loginUser == null}">
+    <c:redirect url="/Login.jsp" />		
+</c:if>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,7 +47,7 @@
           <c:forEach items="${loanItems}" var="item">
                 <tr>
                     <td><c:out value="${item.description}" /></td>
-                    <td><fmt:formatDate pattern="yyyy-MMM-dd" value="${item.date}" /></td>
+                    <td><c:out value="${item.date}" /></td>
                     <%-- <td><c:out value="${item.userByLoanUserId.fbUserId}" /></td> --%>
                     <td><c:out value="${item.userByLoanUserId.name}" /></td>
                     <td><c:out value="${item.itemType.itemTypeName}" /></td>
@@ -82,7 +85,7 @@
           <c:forEach items="${borrowItems}" var="item">
                 <tr>
                     <td><c:out value="${item.description}" /></td>
-                    <td><fmt:formatDate pattern="yyyy-MMM-dd" value="${item.date}" /></td>
+                    <td><c:out value="${item.date}" /></td>
                     <%-- <td><c:out value="${item.userByLoanUserId.fbUserId}" /></td> --%>
                     <td><c:out value="${item.userByOwnerUserId.name}" /></td>
                     <td><c:out value="${item.itemType.itemTypeName}" /></td>
@@ -101,8 +104,8 @@
             </c:forEach>
     </tbody>
 </table>
-<p><a href="LoanItemServlet?action=insert">Add Loan Item</a></p>
-<p><a href="/HibernateTest/SplitBill.jsp">Add new Bill</a></p>
+<!-- <p><a href="LoanItemServlet?action=insert">Add Loan Item</a></p>
+<p><a href="/SplitBill.jsp">Add new Bill</a></p> -->
 </div>
 
 </div>

@@ -17,10 +17,12 @@ import javax.servlet.http.HttpSession;
 import buku.dao.BillDAO;
 import buku.dao.BillSpliteesDAO;
 import buku.dao.LoanMoneyDAO;
+import buku.dao.TransactionDAO;
 import buku.dao.UserDAO;
 import buku.entities.Bill;
 import buku.entities.BillSplitees;
 import buku.entities.LoanMoney;
+import buku.entities.Transaction;
 import buku.entities.User;
 
 /**
@@ -33,6 +35,7 @@ public class SplitBillServlet extends HttpServlet {
 	private BillSpliteesDAO spliteeDAO;
 	private UserDAO userDAO;
 	private LoanMoneyDAO loanMoneyDAO;
+	private TransactionDAO transactionDAO;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,7 +46,7 @@ public class SplitBillServlet extends HttpServlet {
         spliteeDAO = new BillSpliteesDAO();
         userDAO = new UserDAO();
         loanMoneyDAO = new LoanMoneyDAO();
-        // TODO Auto-generated constructor stub
+        transactionDAO = new TransactionDAO();
     }
 
 	/**
@@ -110,29 +113,47 @@ public class SplitBillServlet extends HttpServlet {
 			splitee.setBillId(billId);
 			spliteeDAO.persist(splitee);
 			
-			//avoid record yourself
-			if (u.getId() == logInUser.getId())
-				continue;
-			
-			//record loan money
-			LoanMoney loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(logInUser.getId(), u.getId());
-			// someone owe you
-			if (loanMoney != null){
-				loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() + amountToPay);
-				
-			} else {
-				loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(u.getId(), logInUser.getId());
-				// u owe someone
-				if (loanMoney != null){
-					loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() - amountToPay);
-				} else {
-					loanMoney = new LoanMoney();
-					loanMoney.setUserByOwnerUserId(logInUser);
-					loanMoney.setUserByLoanUserId(u);
-					loanMoney.setTotalLoanAmount(amountToPay);
+			//record transaction
+			if (u.getId().intValue() != logInUser.getId().intValue()){
+				Transaction t = new Transaction();
+				t.setPaidAmount(amountToPay);
+				try{
+					t.setTransactionDate(new Date(date));
+				}catch (Exception ex){
+					ex.printStackTrace();
 				}
+				t.setReason(request.getParameter("reason"));
+				t.setTransactionType(2); //owe transaction
+				t.setUserByFromUserId(u);
+				t.setUserByToUserId(logInUser);
+				transactionDAO.persist(t);
 			}
-			loanMoneyDAO.update(loanMoney);
+			
+			
+			//avoid record yourself, record with your friends
+			if (u.getId().intValue() != logInUser.getId().intValue()){
+				//record loan money
+				LoanMoney loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(logInUser.getId(), u.getId());
+				// someone owe you
+				if (loanMoney != null){
+					loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() + amountToPay);
+					
+				} else {
+					loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(u.getId(), logInUser.getId());
+					// u owe someone
+					if (loanMoney != null){
+						loanMoney.setTotalLoanAmount(loanMoney.getTotalLoanAmount() - amountToPay);
+					} else {
+						loanMoney = new LoanMoney();
+						loanMoney.setUserByOwnerUserId(logInUser);
+						loanMoney.setUserByLoanUserId(u);
+						loanMoney.setTotalLoanAmount(amountToPay);
+					}
+				}
+				loanMoneyDAO.update(loanMoney);
+			}
+			
+			
 		}
 		
 		PrintWriter out = response.getWriter();

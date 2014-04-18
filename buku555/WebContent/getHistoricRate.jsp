@@ -2,8 +2,12 @@
 <%@page import="database.CurrencyDBAO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<c:if test="${sessionScope.loginUser == null}">
+    <c:redirect url="/Login.jsp" />		
+</c:if>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <meta charset="utf-8" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">

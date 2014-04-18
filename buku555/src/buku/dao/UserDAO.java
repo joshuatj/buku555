@@ -159,9 +159,6 @@ public class UserDAO extends AbstractDAO {
 		log.debug("finding User instance by example");
 		Session s = getCurrentSession();
 		try {
-//			List<User> results =
-//					s.createCriteria("buku.entities.User")
-//					.add(Example.create(instance)).list();
 			Transaction tx = s.beginTransaction();
 			List<User> results = s.createQuery("from User").list();
 			tx.commit();
@@ -175,4 +172,24 @@ public class UserDAO extends AbstractDAO {
 			closeSession(s);
 		}
 	}
+	
+	public List<User> findNotiUser() {
+		log.debug("finding User instance by example");
+		Session s = getCurrentSession();
+		try {
+			Transaction tx = s.beginTransaction();
+			List<User> results = s.createQuery("from User where email is not null and receiveNotiMail = true and isRegistered = true").list();
+			tx.commit();
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		} finally{
+			closeSession(s);
+		}
+	}
+	
+	
 }

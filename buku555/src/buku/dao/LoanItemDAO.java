@@ -155,6 +155,38 @@ public class LoanItemDAO extends AbstractDAO {
 		}
 	}
 	
+	public List<LoanItem> findByOwnerIdAndStatus(Integer ownerId, String status) {
+		log.debug("finding LoanItem instance by example");
+		Session s = getCurrentSession();
+		try {
+			Transaction tx = s.beginTransaction();
+			List<LoanItem> results = s.createQuery("from LoanItem l where l.userByOwnerUserId.id=" + ownerId + " and l.loanStatus='" + status + "'").list();
+			tx.commit();
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+	
+	public List<LoanItem> findByLoanUserIdAndStatus(Integer loanUserId, String status) {
+		log.debug("finding LoanItem instance by example");
+		Session s = getCurrentSession();
+		try {
+			Transaction tx = s.beginTransaction();
+			List<LoanItem> results = s.createQuery("from LoanItem l where l.userByLoanUserId.id=" + loanUserId + " and l.loanStatus='" + status + "'").list();
+			tx.commit();
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+	
 	public Integer getLatestInsertedId(){
 		Session s = getCurrentSession();
 		try {

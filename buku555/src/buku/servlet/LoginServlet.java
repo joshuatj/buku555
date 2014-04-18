@@ -62,11 +62,15 @@ public class LoginServlet extends HttpServlet {
 			u.setFbUserId(id);
 			u.setEmail(email);
 			u.setName(name);
+			u.setReceiveNotiMail(true);
 			u.setIsRegistered(true);
 			userDAO.persist(u);
 		} else {
+			//someone in the db but not use fb account to connect to app
 			if (email != null && u.getEmail() == null){
 				u.setEmail(email);
+				u.setReceiveNotiMail(true);
+				u.setIsRegistered(true);
 				userDAO.update(u);
 			}
 				

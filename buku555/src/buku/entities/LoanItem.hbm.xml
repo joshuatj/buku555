@@ -26,9 +26,6 @@
         <property name="photo" type="string">
             <column name="photo" length="1000" />
         </property>
-        <property name="establishmentPhoto" type="string">
-            <column name="establishment_photo" length="1000" />
-        </property>
         <property name="loanStatus" type="string">
             <column name="loan_status" length="100" />
         </property>

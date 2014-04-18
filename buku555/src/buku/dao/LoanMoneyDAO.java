@@ -135,8 +135,8 @@ public class LoanMoneyDAO extends AbstractDAO {
 	}
 	
 	public LoanMoney findLoanMoneyByOwnerUserIdAndLoanUserId(Integer userOwnerId, Integer userLoanId) {
-		System.out.println("#############findLoanMoneyByOwnerUserIdAndLoanUserId");
-		System.out.println("from LoanMoney l where l.userByLoanUserId.id = " + userLoanId + " and l.userByOwnerUserId.id = " + userOwnerId);
+//		System.out.println("#############findLoanMoneyByOwnerUserIdAndLoanUserId");
+//		System.out.println("from LoanMoney l where l.userByLoanUserId.id = " + userLoanId + " and l.userByOwnerUserId.id = " + userOwnerId);
 		log.debug("finding LoanMoney instance by example");
 		Session s = getCurrentSession();
 		try {
