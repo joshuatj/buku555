@@ -205,6 +205,7 @@ window.fbAsyncInit = function() {
                     selectOtherMonths: true
                     		}
             );
+            $('input[name=date]').datepicker("setDate", new Date());
         });
 	    
 	    

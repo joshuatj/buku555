@@ -90,7 +90,9 @@
 	                        selectOtherMonths: true
 	                        		}
 	                );
+	                $('input[name=date]').datepicker("setDate", new Date());
 	            });
+	    		
 	        });
 	        if ("${loanItem.itemType.id}" != "")
 	        	$("#itemType").val("${loanItem.itemType.id}");

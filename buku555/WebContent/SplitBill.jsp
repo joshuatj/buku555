@@ -219,7 +219,6 @@ window.fbAsyncInit = function () {
 	        counter++;
 	        
 	        
-	        
 	        cols += '<td>' + name + 
 	        '<input type="hidden" name="id' + counter + '" value="' + id +'" />' +
 	        '<input type="hidden" name="name' + counter + '" value="' + name +'" />' + 
@@ -339,11 +338,12 @@ window.fbAsyncInit = function () {
 	    $(function() {
             $('input[name=date]').datepicker({
                     //dateFormat: "dd-mm-yy",
-                    maxDate: "0",
+                    maxDate: "0",                  
                     showOtherMonths: true,
                     selectOtherMonths: true
-                    		}
+                    		}            
             );
+            $('input[name=date]').datepicker("setDate", new Date());
         });
 	}); //end docmument ready
 };
