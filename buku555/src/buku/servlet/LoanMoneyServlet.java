@@ -178,7 +178,21 @@ public class LoanMoneyServlet extends HttpServlet {
 		} else {
 			loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(toWhoUser.getId(), fromWhoUser.getId());
 			if (loanMoney != null){
-				loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() - amount));
+				// amount less than you owe, just deduct
+				double totalAmount = loanMoney.getTotalLoanAmount();
+				if (totalAmount >= amount){
+					loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() - amount));
+				} else{
+					// delete old debt and create new one
+					loanMoneyDAO.delete(loanMoney);
+					loanMoney = new LoanMoney();
+					loanMoney.setUserByOwnerUserId(fromWhoUser);
+					loanMoney.setUserByLoanUserId(toWhoUser);
+					loanMoney.setTotalLoanAmount(roundDouble(amount - totalAmount));
+					loanMoneyDAO.persist(loanMoney);
+				}
+					
+				
 			} else {
 				loanMoney = new LoanMoney();
 				loanMoney.setUserByOwnerUserId(fromWhoUser);

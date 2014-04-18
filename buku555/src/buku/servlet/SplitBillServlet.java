@@ -142,7 +142,19 @@ public class SplitBillServlet extends HttpServlet {
 					loanMoney = loanMoneyDAO.findLoanMoneyByOwnerUserIdAndLoanUserId(u.getId(), logInUser.getId());
 					// u owe someone
 					if (loanMoney != null){
-						loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() - amountToPay));
+						double totalAmount = loanMoney.getTotalLoanAmount();
+						if (totalAmount >= amountToPay){
+							loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() - amountToPay));
+						} else{
+							// delete old debt and create new one
+							loanMoneyDAO.delete(loanMoney);
+							loanMoney = new LoanMoney();
+							loanMoney.setUserByOwnerUserId(logInUser);
+							loanMoney.setUserByLoanUserId(u);
+							loanMoney.setTotalLoanAmount(roundDouble(amountToPay - totalAmount));
+							loanMoneyDAO.persist(loanMoney);
+						}
+						//loanMoney.setTotalLoanAmount(roundDouble(loanMoney.getTotalLoanAmount() - amountToPay));
 					} else {
 						loanMoney = new LoanMoney();
 						loanMoney.setUserByOwnerUserId(logInUser);
