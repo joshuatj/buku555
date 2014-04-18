@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.fileupload.css">
 <script src="scripts/jquery-1.11.0.js" type="text/javascript"></script>
 
-<title>Add new loan item</title>
+<title>Record Item</title>
 </head>
 <body>
 <div id="fb-root"></div>
@@ -172,7 +172,7 @@
  <div class="container">
  <div class="landing">
  <h1>buku 555 - lending made social</h1>
- <p class="lead">Record a loan item</p>
+ <p class="lead">Record a new item</p>
 <div class="recent-history-table" >
 <div class="panel panel-default">
 	 <div class="panel-heading">
