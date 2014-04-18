@@ -18,7 +18,7 @@
 					class="dropdown-toggle">Money<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="SplitBill.jsp">Split Bill</a></li>
-						<li><a href="MoneyPayment.jsp">Record Money Loan</a></li>
+						<li><a href="MoneyPayment.jsp">Record Payment</a></li>
 						<li><a href="LoanMoneyServlet?action=list">Show Money Record</a></li>
 						<li><a href="BillServlet?action=list">Show Bill Record</a></li>
 					</ul>
