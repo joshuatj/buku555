@@ -79,11 +79,13 @@ window.fbAsyncInit = function() {
         	//$('#fromWho').val('${loanItem.userByLoanUserId.fbUserId}');
         	$('#fbId').val('${loanItem.userByOwnerUserId.fbUserId}');
         	$('#name').val('${loanItem.userByOwnerUserId.name}');
+        	$('#reason').val('Settle Up');
         } else if ('${select}' == '2'){
         	$('#selectWhoPaid').val('2');
         	$('#fbId').val('${loanItem.userByLoanUserId.fbUserId}');
         	//$('#toWho').val('${loanItem.userByOwnerUserId.fbUserId}');
         	$('#name').val('${loanItem.userByLoanUserId.name}');
+        	$('#reason').val('Settle Up');
         } else if ('${select}' == '3'){
         	$('#selectWhoPaid').val('3');
         } else if ('${select}' == '4'){
@@ -272,7 +274,7 @@ window.fbAsyncInit = function() {
 		<option value="GBP">GBP</option> -->
 	</select>
 	<input type="text" id="amount" value="${loanItem.totalLoanAmount}" placeholder="How much?"/>
-	<input id="reason" value="Settle Up" placeholder="For what? (e.g. party)">
+	<input id="reason" placeholder="For what? (e.g. party)">
 	<button id="cancel" class="btn split-bill" onclick="document.location='LoanMoneyServlet?action=list'">Cancel</button>
 </div>
 <div class="pin-tab-lower">
