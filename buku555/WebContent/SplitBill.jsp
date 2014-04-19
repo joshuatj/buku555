@@ -377,9 +377,9 @@ window.fbAsyncInit = function () {
 
 	<div id='splitBillrow' class="pin-tab-upper rounded-corners">
 	<span class="font-14">I paid </span>
-	<input id='totalAmount'> 
+	<input id='totalAmount' placeholder='How much?'> 
 	<span class="font-14">For</span> 
-	<input class="w230" id='reason'> 
+	<input class="w230" id='reason' placeholder='what? e.g. pizza'> 
 	<button id='splitButton' class="btn split-bill">Split it</button>
 	</div>
 	
